@@ -1,0 +1,161 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>底部导航</title>
+    <link rel="stylesheet" type="text/css" href="./css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/aui.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/style.css"/>
+    <style>
+
+    </style>
+</head>
+<body>
+<div id="wrap" class="flex-wrap flex-vertical">
+    <header class="aui-bar aui-bar-nav">
+        <div class="aui-pull-left aui-btn">
+            <span class="aui-iconfont aui-icon-left"></span>
+        </div>
+        <div class="aui-title" style="left:2rem; right: 0.5rem;">
+            <div class="aui-searchbar">
+                <div class="aui-searchbar-input aui-border-radius">
+                    <i class="aui-iconfont aui-icon-search"></i>
+                    <input type="search" placeholder="搜索麦言上的问题、人、话题" id="search-input">
+                    <div class="aui-searchbar-clear-btn">
+                        <i class="aui-iconfont aui-icon-close"></i>
+                    </div>
+                </div>
+                <div class="aui-searchbar-btn" tapmode>取消</div>
+            </div>
+        </div>
+        <!-- <ul class="flex-hear">
+            <li class="border-b active" >发现</li>
+            <li class="border-b" >提问</li>
+            <li class="border-b" >我的</li>
+        </ul> -->
+        <div class="fiex-banner">
+          <img src="./image/banner.png">
+        </div>
+        <ul class="flex-cont">
+          <li tapmode="hover" onclick="randomSwitchBtn( this );"  class="flex-con active">Amazon</li>
+          <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con" >Wish</li>
+          <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con" >Aliexpress</li>
+          <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con" >Ebay</li>
+          <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con" >DHgate</li>
+          <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con" >Lazada</li>
+          <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con" >shopee</li>
+          <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con" >全部</li>
+        </ul>
+    </header>
+    <div id="main" class="flex-con">
+      <form id="login_form" method="post" target="hf" action="http://www.maiyanbbs.com/account/ajax/login_process/">
+        <input type="hidden" name="return_url" value="">
+        <input type="hidden" value="1" name="net_auto_login">
+        <input type="hidden" name="user_name" value="neiljiang">
+        <input type="hidden" name="password" value="jwm123456">
+      </form>
+      <iframe name="hf" width="0" height="0" style="display:none"></iframe>
+    </div>
+    <div id="footer" class="border-t">
+        <ul class="flex-wrap" >
+            <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con active" >发现</li>
+            <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con" >提问</li>
+            <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con" >我的</li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>
+<script type="text/javascript" src="script/api.js"></script>
+<script type="text/javascript">
+    apiready = function () {
+        // $api.fixStatusBar( $api.dom('header') );
+        api.setStatusBarStyle({
+            style: 'dark',
+            color: '#6ab494'
+        });
+        document.getElementById("login_form").submit();
+        funIniGroup();
+    }
+
+    function funIniGroup(){
+        var catList = '0,2,3,4,6,8,5,1';
+        var eHeaderLis = $api.domAll('.flex-cont li');
+            frames = [];
+        for (var i = 0,len = eHeaderLis.length; i < len; i++) {
+                frames.push( {
+                    name: 'frame'+i,
+                    url: './html/frame.html',
+                    pageParam:{
+                      category:catList.split(",")[i]
+                    },
+                    bounces:true
+                } )
+        }
+        api.openFrameGroup({
+            name: 'group',
+            scrollEnabled: false,
+            rect: {
+                x: 0,
+                y: $api.dom('.flex-cont').offsetHeight,
+                w: api.winWidth,
+                h: $api.dom('#main').offsetHeight
+            },
+            index: 0,
+            frames: frames
+        }, function (ret, err) {
+
+        });
+    }
+
+    // function funIniGroup(){
+    //     var eHeaderLis = $api.domAll('header li'),
+    //         frames = [];
+    //     for (var i = 0,len = eHeaderLis.length; i < len; i++) {
+    //             frames.push( {
+    //                 name: 'frame'+i,
+    //                 url: './html/frame'+i+'.html',
+    //                 bgColor : 'rgba(0,0,0,.2)',
+    //                 bounces:true
+    //             } )
+    //     }
+    //     api.openFrameGroup({
+    //         name: 'group',
+    //         scrollEnabled: false,
+    //         rect: {
+    //             x: 0,
+    //             y: $api.dom('header').offsetHeight,
+    //             w: api.winWidth,
+    //             h: $api.dom('#main').offsetHeight
+    //         },
+    //         index: 0,
+    //         frames: frames
+    //     }, function (ret, err) {
+    //
+    //     });
+    // }
+
+    // 随意切换按钮
+    function randomSwitchBtn( tag ) {
+        if( tag == $api.dom('#footer li.active') )return;
+        var eFootLis = $api.domAll('#footer li'),
+            eHeaderLis = $api.domAll('header li'),
+            index = 0;
+        for (var i = 0,len = eFootLis.length; i < len; i++) {
+            if( tag == eFootLis[i] ){
+                index = i;
+            }else{
+                $api.removeCls(eFootLis[i], 'active');
+                $api.removeCls(eHeaderLis[i], 'active');
+            }
+        }
+        $api.addCls( eFootLis[index], 'active');
+        $api.addCls( eHeaderLis[index], 'active');
+        api.setFrameGroupIndex({
+            name: 'group',
+            index: index
+        });
+    }
+</script>

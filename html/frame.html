@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>云API</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <!--<link rel="stylesheet" type="text/css" href="../css/style.css"/>-->
+    <style>
+        .img{border:solid red 0px;border-radius:50%;}
+        li{list-style:none;}
+        li h2{font-size: 16px; text-decoration:none;}
+
+        .pull-right,.img0{display: none}
+        div{padding:5px;border:solid red 0px}
+        .mod-footer{border-bottom:solid #F5F5F5 10px;padding-top:0px}
+        a{color:#999999}
+        .mod-footer a{border:solid red 0px;line-height:10px;padding:0px}
+        #list{padding:0px}
+    </style>
+</head>
+<body>
+    <div id="list"></div>
+    <div id="list0"></div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/jquery.js"></script>
+<script type="text/javascript">
+
+//http://www.maiyanbbs.com/?/explore/ajax/list/sort_type-new__day-0__is_recommend-0__page-1
+
+    apiready = function(){
+        var pageid = 1;
+        loadPage(api.pageParam.category,pageid);
+        //下拉刷新
+        api.setRefreshHeaderInfo({
+            loadingImg : 'widget://image/refresh.png',
+            bgColor : '#ccc',
+            textColor : '#fff',
+            textDown : '下拉刷新...',
+            textUp : '放开即可刷新...',
+            showTime : false
+        }, function(ret, err) {
+            if (api.connectionType != 'none') {//联网状态
+              pageid = 1;
+              loadPage(api.pageParam.category,pageid);
+            } else {//使用缓存
+                $api.toast('网络连接失败');
+                api.refreshHeaderLoadDone();
+            }
+        });
+        //上拉加载
+        api.addEventListener({
+                name : 'scrolltobottom',
+                extra : {
+                        threshold : 0 //设置距离底部多少距离时触发，默认值为0，数字类型
+                }
+        }, function(ret, err) {
+                pageid = pageid + 1;
+                loadPage(api.pageParam.category,pageid);
+        });
+    };
+    function loadPage(category,pageid){
+        api.showProgress({
+            style: 'default',
+            animationType: 'fade',
+            title: '努力加载中...',
+            text: '先喝杯茶...',
+            modal: true
+        });
+
+      var url = '';
+      if(category==0){
+         url = 'http://www.maiyanbbs.com/?/explore/ajax/list/sort_type-new__day-0__is_recommend-0__page-'+pageid;
+      }
+      else{
+         url = 'http://www.maiyanbbs.com/?/explore/ajax/list/sort_type-new__category-'+category+'__day-0__is_recommend-0__page-'+pageid;
+      }
+      api.ajax({
+          url: url,
+          method: 'get'
+      },function(ret, err){
+          api.hideProgress();
+          if (ret) {
+              alert( JSON.stringify( ret ) );
+
+          } else {
+              //alert( JSON.stringify( err ) );
+              var str = err['body'];
+              //alert(str);
+              //str = str.replace(/\r/g,'');
+              if(pageid==1){
+                $api.byId('list').innerHTML = str ;
+              }
+              else{
+                $api.byId('list').innerHTML += str ;
+              }
+
+              $api.byId('list0').innerHTML = '';
+              $(".img").each(function(element,index){
+                   $api.byId('list0').innerHTML += '<img class="img0" src="'+$(this).attr('src')+'">' ;
+              });
+              $(".mod-footer a").css('color','silver');
+              $(".mod-footer").each(function(element,index){
+                   if($(this).html().indexOf('文章')!=-1){
+                      $(this).parent().css('display','none');
+                   }
+              });
+              $(".inners").each(function(element,index){
+                      $(this).click(function(){
+                      eval($(this).find("h2").find("a").attr("abbr"));
+                      //alert($(this).html());
+                      });
+              });
+              $("a").each(function(element,index){
+                  if($(this).attr("href").indexOf("javascript") == -1){
+                    $(this).attr("abbr","javascript:u('"+$(this).attr("href")+"')") ;
+                    $(this).attr("href","javascript:void(0)") ;
+                  }
+              });
+              api.refreshHeaderLoadDone();
+          }
+      });
+    }
+    function u(url){
+      if(url.indexOf('question') != -1){
+        api.openWin({
+            name: 'question',
+            url: './question.html',
+            pageParam: {
+                url: url
+            }
+        });
+
+      }
+
+    }
+</script>
+</html>
