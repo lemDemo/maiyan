@@ -9,7 +9,7 @@
 html{
 	font-family: "Helvetica Neue", Helvetica, sans-serif;
 	font-size: 20px;
-} 
+}
 html,body {
 	-webkit-touch-callout:none;
 	-webkit-text-size-adjust:none;
@@ -1424,7 +1424,7 @@ input[type="search"]::-webkit-search-cancel-button {
 	left: 0;
 	z-index: 10;
 	width: 100%;
-	min-height: 2.25rem;
+	min-height: 28.25rem;
 	font-size: 0.9rem;
 	text-align: center;
 	display: table;

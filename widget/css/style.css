@@ -12,20 +12,20 @@ html,body {  font-size:14px; height:100%;  }
 .border-b:after{ top:auto; bottom:0;  }
 
 #wrap{ height: 100%; }
- 
+
 header ul.flex-hear{ background-color: #f2f2f2; }
 header ul.flex-hear li { height: 50px; line-height: 50px; text-align: center; display: none; color: #323237; position: relative;font-size: 18px;  }
 header ul.flex-hear li.active{ display: block; }
-header ul.flex-cont{padding-top: 10px;background-color: #fff;width: 100%;float: left;}
-header ul.flex-cont li{float: left;width: 25%;padding-top: 50px;padding-bottom: 4px; background: url() no-repeat center 2px; background-size: auto 40px; text-align: center;}
-header ul.flex-cont li:nth-child(1){ background-image: url(../image/btn0201.png); }
-header ul.flex-cont li:nth-child(2){ background-image: url(../image/btn0301.png); }
-header ul.flex-cont li:nth-child(3){ background-image: url(../image/btn0401.png); }
-header ul.flex-cont li:nth-child(4){ background-image: url(../image/btn0501.png); }
-header ul.flex-cont li:nth-child(5){ background-image: url(../image/btn0601.png); }
-header ul.flex-cont li:nth-child(6){ background-image: url(../image/btn0701.png); }
-header ul.flex-cont li:nth-child(7){ background-image: url(../image/btn0801.png); }
-header ul.flex-cont li:nth-child(8){ background-image: url(../image/btn0101.png); }
+div.flex-conter ul.flex-cont{padding-top: 10px;background-color: #fff;width: 100%;float: left;}
+div.flex-conter ul.flex-cont li{float: left;width: 25%;padding-top: 50px;padding-bottom: 4px; background: url() no-repeat center 2px; background-size: auto 40px; text-align: center;}
+div.flex-conter ul.flex-cont li:nth-child(1){ background-image: url(../image/btn0201.png); }
+div.flex-conter ul.flex-cont li:nth-child(2){ background-image: url(../image/btn0301.png); }
+div.flex-conter ul.flex-cont li:nth-child(3){ background-image: url(../image/btn0401.png); }
+div.flex-conter ul.flex-cont li:nth-child(4){ background-image: url(../image/btn0501.png); }
+div.flex-conter ul.flex-cont li:nth-child(5){ background-image: url(../image/btn0601.png); }
+div.flex-conter ul.flex-cont li:nth-child(6){ background-image: url(../image/btn0701.png); }
+div.flex-conter ul.flex-cont li:nth-child(7){ background-image: url(../image/btn0801.png); }
+div.flex-conter ul.flex-cont li:nth-child(8){ background-image: url(../image/btn0101.png); }
 #footer{  background-color: #f2f2f2; }
 #footer ul li{  padding-top: 36px; padding-bottom: 4px; background: url() no-repeat center 2px; background-size: auto 30px; text-align: center; }
 #footer ul li.active{ color: #9DBD39; }
