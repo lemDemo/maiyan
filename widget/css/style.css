@@ -1,4 +1,4 @@
-html,body {  font-size:14px; height:100%;  }
+html,body {  font-size:10px; height:100%;  }
 i{font-style: normal;}
 .hover{ opacity: .8; }
 
@@ -12,13 +12,13 @@ i{font-style: normal;}
 .border-b:after{     content: '';     position: absolute;     left: 0;  top:0;     background: #ddd;   right:0;    height: 1px;     -webkit-transform: scaleY(0.5);             transform: scaleY(0.5);     -webkit-transform-origin: 0 0;             transform-origin: 0 0; }
 .border-b:after{ top:auto; bottom:0;  }
 
-#wrap{ height: auto;margin-bottom: 60px;}
+#wrap{ height: auto;margin-bottom: 5.89rem;}
 
 header ul.flex-hear{ background-color: #f2f2f2; }
 header ul.flex-hear li { height: 50px; line-height: 50px; text-align: center; display: none; color: #323237; position: relative;font-size: 18px;  }
 header ul.flex-hear li.active{ display: block; }
 div.flex-conter ul.flex-cont{padding-top: 10px;background-color: #fff;width: 100%;float: left;}
-div.flex-conter ul.flex-cont li{float: left;width: 25%;padding-top: 50px;padding-bottom: 4px; background: url() no-repeat center 2px; background-size: auto 40px; text-align: center;}
+div.flex-conter ul.flex-cont li{float: left;width: 25%;padding-top: 5rem;padding-bottom: 0.5rem; background: url() no-repeat center 2px; background-size: auto 4rem; text-align: center;}
 div.flex-conter ul.flex-cont li:nth-child(1){ background-image: url(../image/btn0201.png); }
 div.flex-conter ul.flex-cont li:nth-child(2){ background-image: url(../image/btn0301.png); }
 div.flex-conter ul.flex-cont li:nth-child(3){ background-image: url(../image/btn0401.png); }
@@ -35,22 +35,24 @@ header div.flex-conter{width: 100%;float: left;}
 
 /* index-热门问题 */
 .aui-media-list-item-inner>i{display: inline-block;width: 0.3rem;height: 1.8rem;background-color: #9DBD39;margin:auto;}
-span.aui-margin-l-5{font-size: 0.9rem;}
+span.aui-margin-l-5{font-size: 1.2rem;}
 .aui-margin-l-5>span{color: #3E3E3E;}
 .aui-margin-l-5>i{color: #fff;background-color: #CCC;border-radius: 3px;padding: 0 0.2rem;}
+.aui-media-list>li.aui-list-item:last-child{background-image: none;}
+
 /* index-专题推荐 */
-.aui-list.aui-media-list{margin-top: 10px;}
+.aui-list.aui-media-list{margin: 1rem 0;}
 .aui-list-item-inner{overflow-y: hidden;}
-.aui-row.aui-row-padded{min-width: 450px;overflow-y: scroll;}
-.aui-row-padded .aui-col-xs-4{border:1px solid #F2F2F2;border-radius: 5px;width: 135px;text-align: center;margin-right: 10px;}
+.aui-row.aui-row-padded{min-width: 45rem;overflow-y: scroll;}
+.aui-row-padded .aui-col-xs-4{border:1px solid #F2F2F2;border-radius: 5px;width: 13.5rem;text-align: center;margin-right: 10px;}
 .aui-row-padded .aui-col-xs-4>img{width: 60%;margin:0.7rem auto;}
-.aui-row-padded .aui-col-xs-4>p{font-size: 0.9rem;padding:0.3rem 0.8rem;}
-.aui-row-padded .aui-col-xs-4>a{font-size: 0.9rem;border:1px solid #ACC758;border-radius: 3px;display: inline-block;width: 85%;line-height: 1.7rem;color: #ACC758;margin:0.3rem 0 0.75rem;}
+.aui-row-padded .aui-col-xs-4>p{font-size: 1.2rem;padding:0.3rem 0.8rem;}
+.aui-row-padded .aui-col-xs-4>a{font-size: 1.2rem;border:1px solid #ACC758;border-radius: 3px;display: inline-block;width: 85%;line-height: 1.7rem;color: #ACC758;margin:0.3rem 0 0.75rem;}
 /* index-精彩文章 */
-.aui-list .aui-list-item-media.item-media-figure{width: 9.5rem;padding:0;background-color: #fff;}
+.aui-list .aui-list-item-media.item-media-figure{width: 11rem;padding:0;background-color: #fff;}
 /* 底部 */
-#footer{  background-color: #f2f2f2;position: fixed;bottom: 0;width: 100%;}
-#footer ul li{  padding-top: 36px; padding-bottom: 4px; background: url() no-repeat center 2px; background-size: auto 30px; text-align: center; }
+#footer{  background-color: #fff;border-top: 1px solid #ddd;position: fixed;bottom: 0;width: 100%;padding-top: 0.5rem;z-index: 5;}
+#footer ul li{  padding-top: 3.5rem;font-size: 1.2rem; background: url() no-repeat center 0.2rem; background-size: auto 3rem; text-align: center; }
 #footer ul li.active{ color: #9DBD39; }
 #footer ul li:nth-child(1){ background-image: url(../image/bottombtn0101.png); }
 #footer ul li:nth-child(2){ background-image: url(../image/bottombtn0201.png); }
@@ -63,3 +65,20 @@ span.aui-margin-l-5{font-size: 0.9rem;}
 /*.flex-con{
   overflow: auto
 }*/
+/* 适配 */
+
+@media only screen and (min-width: 370px){
+    html,body {
+        font-size: 11px !important;
+    }
+}
+@media only screen and (min-width: 401px){
+    html,body {
+        font-size: 12px !important;
+    }
+}
+@media only screen and (min-width: 760px){
+    html,body {
+        font-size: 19px !important;
+    }
+}
