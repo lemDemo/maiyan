@@ -262,6 +262,7 @@
 </html>
 <script type="text/javascript" src="script/api.js"></script>
 <script type="text/javascript">
+/* 版头 */
     apiready = function () {
         // $api.fixStatusBar( $api.dom('header') );
         api.setStatusBarStyle({
@@ -270,7 +271,25 @@
         });
         document.getElementById("login_form").submit();
         funIniGroup();
+
+        /* 下拉刷新 */
+        openFrame();
+        api.setRefreshHeaderInfo({
+            visible: true,
+            loadingImg: 'widget://image/refresh.png',
+            bgColor: '#ccc',
+            textColor: '#fff',
+            textDown: '下拉刷新...',
+            textUp: '松开刷新...',
+            showTime: true
+        }, function(ret, err){
+            alert('正在努力刷新......');
+            api.refreshHeaderLoadDone();
+        });
+
+
     }
+
 
     function funIniGroup(){
         var catList = '0,2,3,4,6,8,5,1';
