@@ -433,6 +433,7 @@ function fnQuestionDetails(id){
 
 
       function get_question_list(page,category_id,sort_type){
+        var html;
         page = page || 1 ;
         sort_type = sort_type || 'new';
         api.ajax({
@@ -468,30 +469,62 @@ function fnQuestionDetails(id){
                               str_answer_users += '<img src="http://www.maiyanx.com/uploads/avatar/'+data[i].answer_users[key]['avatar_file']+'" alt="">';
                         }
                     }
-                //  console.log(str_answer_users+'++++++++++++++++++++'+i);
-                      var html = '<li class="aui-list-item">'+
-                          '<div class="aui-info aui-margin-t-5" style="padding:0">'+
-                              '<div class="aui-info-item">'+
-                                '<img src="http://www.maiyanx.com/uploads/avatar/'+data[i].user_info.avatar_file+'" style="width:30px" class="aui-img-round" />'+
-                                  '<span class="aui-margin-l-5"><span>&nbsp;'+data[i].user_info.user_name+'</span>'+str_type+'&nbsp;<i>'+data[i].category_info.title+'</i></span>'+
-                                '</div>'+
-                              '<div class="aui-info-item aui-info-item-time"><i class="aui-iconfont aui-icon-date"></i>&nbsp;'+str_time+'</div>'+
-                          '</div>'+
-                          '<div class="aui-media-list-item-inner" onclick="fnQuestionDetails('+data[i].question_id+')">'+
-                              '<div class="aui-list-item-inner">'+
-                                  '<div class="aui-list-item-text">'+
-                                      '<div class="aui-list-item-title">'+data[i].question_content+'</div>'+
-                                  '</div>'+
-                              '</div>'+
-                              '<div class="aui-list-item-media">'+
-                                  '<p><span>'+data[i].view_count+'</span><br>阅读</p>'+
-                              '</div>'+
-                          '</div>'+
-                          '<div class="aui-list-item-text item-text-bottom">'+str_answer_users+
-                              '<span>'+data[i].answer_count+'人回复</span>'+
-                          '</div>'+
-                        '</li>';
-                      $('#listView').append(html);
+              
+                 if(data[i].question_id){
+                   if(data[i].user_info.avatar_file == null){
+                     html = '<li class="aui-list-item">'+
+                         '<div class="aui-info aui-margin-t-5" style="padding:0">'+
+                             '<div class="aui-info-item">'+
+                               '<img src="http://www.maiyanx.com/static/common/avatar-max-img.png" style="width:30px" class="aui-img-round" />'+
+                                 '<span class="aui-margin-l-5"><span>&nbsp;'+data[i].user_info.user_name+'</span>'+str_type+'&nbsp;<i>'+data[i].category_info.title+'</i></span>'+
+                               '</div>'+
+                             '<div class="aui-info-item aui-info-item-time"><i class="aui-iconfont aui-icon-date"></i>&nbsp;'+str_time+'</div>'+
+                         '</div>'+
+                         '<div class="aui-media-list-item-inner" onclick="fnQuestionDetails('+data[i].question_id+')">'+
+                             '<div class="aui-list-item-inner">'+
+                                 '<div class="aui-list-item-text">'+
+                                     '<div class="aui-list-item-title">'+data[i].question_content+'</div>'+
+                                 '</div>'+
+                             '</div>'+
+                             '<div class="aui-list-item-media">'+
+                                 '<p><span>'+data[i].view_count+'</span><br>阅读</p>'+
+                             '</div>'+
+                         '</div>'+
+                         '<div class="aui-list-item-text item-text-bottom">'+str_answer_users+
+                             '<span>'+data[i].answer_count+'人回复</span>'+
+                         '</div>'+
+                       '</li>';
+                   }else{
+                     html = '<li class="aui-list-item">'+
+                         '<div class="aui-info aui-margin-t-5" style="padding:0">'+
+                             '<div class="aui-info-item">'+
+                               '<img src="http://www.maiyanx.com/uploads/avatar/'+data[i].user_info.avatar_file+'" style="width:30px" class="aui-img-round" />'+
+                                 '<span class="aui-margin-l-5"><span>&nbsp;'+data[i].user_info.user_name+'</span>'+str_type+'&nbsp;<i>'+data[i].category_info.title+'</i></span>'+
+                               '</div>'+
+                             '<div class="aui-info-item aui-info-item-time"><i class="aui-iconfont aui-icon-date"></i>&nbsp;'+str_time+'</div>'+
+                         '</div>'+
+                         '<div class="aui-media-list-item-inner" onclick="fnQuestionDetails('+data[i].question_id+')">'+
+                             '<div class="aui-list-item-inner">'+
+                                 '<div class="aui-list-item-text">'+
+                                     '<div class="aui-list-item-title">'+data[i].question_content+'</div>'+
+                                 '</div>'+
+                             '</div>'+
+                             '<div class="aui-list-item-media">'+
+                                 '<p><span>'+data[i].view_count+'</span><br>阅读</p>'+
+                             '</div>'+
+                         '</div>'+
+                         '<div class="aui-list-item-text item-text-bottom">'+str_answer_users+
+                             '<span>'+data[i].answer_count+'人回复</span>'+
+                         '</div>'+
+                       '</li>';
+
+                   }
+                     $('#listView').append(html);
+                 }
+
+
+
+
                   }
 
             } else {

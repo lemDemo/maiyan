@@ -173,7 +173,7 @@
 <script>
   // 插件iScroll 配置项
     var myScroll, menuOpened = false;
-    var ztaiLan = $api.dom('header').offsetHeight;
+    // var ztaiLan = '25px';
 
     function loaded() {
         try {
@@ -192,7 +192,7 @@
     var footer = $api.byId('footer');
     var headerH = $api.offset(header).h;  //获取元素高
     var footerH = $api.offset(footer).h;  //获取元素高
-    $("header").css('padding-top',ztaiLan);
+    $("header").css('padding-top','25px');
     apiready = function () {
       api.openFrame({    //打开 frame
           name: 'page2',
@@ -205,7 +205,7 @@
           },
           rect: {
               x: 0,
-              y: headerH+ztaiLan,
+              y: headerH + 25,
               w: 'auto',
               h: 'auto',
               marginBottom: footerH
