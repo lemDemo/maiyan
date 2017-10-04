@@ -1,372 +1,348 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
-    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>底部导航</title>
-    <link rel="stylesheet" type="text/css" href="./css/api.css"/>
-    <link rel="stylesheet" type="text/css" href="./css/aui.css"/>
-    <link rel="stylesheet" type="text/css" href="./css/style.css"/>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="css/aui.css"/>
+    <link rel="stylesheet" type="text/css" href="css/common.css"/>
+    <style>
+        /*
+            iscroll
+        */
+        #wrapper {
+            position: relative;
+            z-index: 1;
+            /*height: 35px;*/
+            width: 100%;
+            overflow: hidden;
+
+        }
+
+        #scroller {
+            position: absolute;
+            z-index: 1;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            width: 200%;
+            /*-webkit-transform: translateZ(0);
+            transform: translateZ(0);*/
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -webkit-text-size-adjust: none;
+        }
+
+        #scroller ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: -webkit-box
+        }
+
+        #scroller li {
+            width: 10%;
+            line-height: 35px;
+            font-size: 14px;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        /*
+            iscroll
+        */
+        .nav_active {
+            color: #DC282E;
+            font-size: 16px !important;
+        }
+
+        nav {
+            width: 100%;
+            display: -webkit-box;
+            background-color: #F6F6F6;
+        }
+
+        .arrow_down {
+            display: block;
+            background-size: 15px;
+            background-repeat: no-repeat;
+            background-position: center;
+            padding: 15px;
+            background-image: url('image/channel_nav_arrow@2x.png');
+            -webkit-box-flex: 1;
+            -webkit-transform: rotate(180deg);
+            -webkit-transition: All .5s ease;
+        }
+
+        .arrow_up {
+            -webkit-transform: rotate(0deg);
+            -webkit-transition: All .5s ease;
+        }
+
+        .switchNav {
+            position: relative;
+            width: 90%;
+            line-height: 35px;
+            text-indent: 10px;
+        }
+
+        .navTips {
+            width: 70px;
+            height: 15px;
+            position: absolute;
+            right: 0;
+            bottom: 10px;
+            font-size: 12px;
+            line-height: 16px;
+            color: #DE0000;
+            margin-top: 2px;
+            border: 1px solid;
+            border-radius: 10px;
+        }
+
+        .cover {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 999;
+        }
+
+        .login-user {
+            background-image: url("image/user_weiboimage_netease@2x.png") !important;
+        }
+
+        .aui-bar-tab-item > img{
+          width: 20px;
+          margin:auto;
+        }
+
+    </style>
 </head>
-<body>
-<div id="wrap" class="flex-wrap flex-vertical">
-    <header class="aui-bar aui-bar-nav">
-        <div class="aui-pull-left aui-btn">
-            <!-- <span class="aui-iconfont aui-icon-left"></span> -->
-        </div>
-        <div class="aui-title" style="left:2rem; right: 0.5rem;">
-            <div class="aui-searchbar">
-                <div class="aui-searchbar-input aui-border-radius">
-                    <i class="aui-iconfont aui-icon-search"></i>
-                    <input type="search" placeholder="搜索麦言上的问题、人、话题" id="search-input">
-                    <div class="aui-searchbar-clear-btn">
-                        <i class="aui-iconfont aui-icon-close"></i>
-                    </div>
-                </div>
-                <div class="aui-searchbar-btn" tapmode>取消</div>
-            </div>
-        </div>
-
-        <div class="fiex-banner">
-          <img src="./image/banner.png">
-        </div>
-
-        <div class="flex-conter">
-          <ul class="flex-cont">
-            <li tapmode="hover" onclick="randomSwitchBtn( this );"  class="flex-con active">Amazon</li>
-            <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con" >Wish</li>
-            <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con" >Aliexpress</li>
-            <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con" >Ebay</li>
-            <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con" >DHgate</li>
-            <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con" >Lazada</li>
-            <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con" >shopee</li>
-            <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con" >全部</li>
-          </ul>
-        </div>
-    </header>
-    <!-- 内容 -->
-    <div id="main" class="flex-con">
-      <!-- 热门问题 -->
-        <ul class="aui-list aui-media-list">
-            <li class="aui-list-item aui-list-item-arrow">
-                <div class="aui-media-list-item-inner">
-                  <i></i>
-                    <div class="aui-list-item-inner">
-                        <div class="aui-list-item-text">
-                            <div class="aui-list-item-title">热门问题</div>
-                            <div class="aui-list-item-right">查看更多</div>
-                        </div>
-                    </div>
-                </div>
-            </li>
-            <li class="aui-list-item">
-              <div class="aui-info aui-margin-t-5" style="padding:0">
-                  <div class="aui-info-item">
-                      <img src="image/img1.png" style="width:3.5rem" class="aui-img-round" />
-                      <span class="aui-margin-l-5"><span>&nbsp;唯一的你</span>发起了问题&nbsp;<i>Dhgate</i></span>
-                    </div>
-                  <!-- <div class="aui-info-item">2015-07-14 10:31</div> -->
-              </div>
-              <div class="aui-media-list-item-inner">
-                  <div class="aui-list-item-inner">
-
-                      <div class="aui-list-item-text">
-                          <div class="aui-list-item-title">【敦煌网】快速完成产品优化</div>
-                          <!-- <div class="aui-list-item-right">08:00</div> -->
-                      </div>
-                      <div class="aui-list-item-text">
-                          一个产品上传到平台以后，如何才能获得更多的曝光，更好的曝光，来保证后期的订单......
-                      </div>
-                  </div>
-                  <div class="aui-list-item-media">
-                      <p><span>456</span><br>阅读</p>
+<body tapmode="">
+  <header class="aui-bar aui-bar-nav" id="header">
+      <div class="aui-pull-left aui-btn">
+          <!-- <span class="aui-iconfont aui-icon-left"></span> -->
+          <!-- <div class="btn menu" style="visibility: hidden" tapmode="" onclick="openMenu()"></div> -->
+      </div>
+      <div class="aui-title" style="left:2rem; right: 0.5rem;">
+          <div class="aui-searchbar">
+              <div class="aui-searchbar-input aui-border-radius">
+                  <i class="aui-iconfont aui-icon-search"></i>
+                  <input type="search" placeholder="请输入搜索内容" id="search-input" onclick="search()">
+                  <div class="aui-searchbar-clear-btn">
+                      <i class="aui-iconfont aui-icon-close"></i>
                   </div>
               </div>
-              <div class="aui-list-item-text item-text-bottom">
-                  <img src="image/img2.png" alt="">
-                  <img src="image/img3.png" alt="">
-                  <img src="image/img4.png" alt="">
-                  <img src="image/img5.png" alt="">
-                  <img src="image/img6.png" alt="">
-                  <span>等20人回复&nbsp;•&nbsp;关注问题</span>
-              </div>
-            </li>
-            <li class="aui-list-item">
-              <div class="aui-info aui-margin-t-5" style="padding:0">
-                  <div class="aui-info-item">
-                      <img src="image/img7.png" style="width:3.5rem" class="aui-img-round" />
-                      <span class="aui-margin-l-5"><span>&nbsp;憨猪猫</span>发起了问题&nbsp;<i>Amazon</i></span>
-                    </div>
-                  <!-- <div class="aui-info-item">2015-07-14 10:31</div> -->
-              </div>
-              <div class="aui-media-list-item-inner">
-                  <div class="aui-list-item-inner">
+              <!-- <div class="aui-searchbar-btn" tapmode>取消</div> -->
+          </div>
+      </div>
+  </header>
+<div class="cover hidden" tapmode="">
 
-                      <div class="aui-list-item-text">
-                          <div class="aui-list-item-title">查询客户收到货了，但是没确认收货，速卖通也没检测妥投，怎么办？</div>
-                          <!-- <div class="aui-list-item-right">08:00</div> -->
-                      </div>
-                      <div class="aui-list-item-text">
-
-                      </div>
-                  </div>
-                  <div class="aui-list-item-media">
-                      <p><span>456</span><br>阅读</p>
-                  </div>
-              </div>
-              <div class="aui-list-item-text item-text-bottom">
-                  <img src="image/img2.png" alt="">
-                  <img src="image/img3.png" alt="">
-                  <img src="image/img4.png" alt="">
-                  <img src="image/img5.png" alt="">
-                  <img src="image/img6.png" alt="">
-                  <span>等20人回复&nbsp;•&nbsp;已关注</span>
-              </div>
-            </li>
-        </ul>
-        <!-- end-热门问题 -->
-        <!-- 推荐专题 -->
-        <ul class="aui-list aui-media-list">
-          <li class="aui-list-item">
-              <div class="aui-media-list-item-inner">
-                <i></i>
-                  <div class="aui-list-item-inner">
-                      <div class="aui-list-item-text">
-                          <div class="aui-list-item-title">推荐专题</div>
-                          <!-- <div class="aui-list-item-right">查看更多</div> -->
-                      </div>
-                  </div>
-              </div>
-          </li>
-            <!-- <li class="aui-list-item">
-                <i></i>
-                <div class="aui-list-item-inner">
-                    <div class="aui-list-item-title">推荐专题</div>
-                </div>
-            </li> -->
-            <li>
-                <div class="aui-list-item-inner">
-                    <div class="aui-row aui-row-padded">
-                        <div class="aui-col-xs-4">
-                            <img src="image/img8.png"/>
-                            <h2>憨猪</h2>
-                            <p>老司机发车，来不及介绍，快上车</p>
-                            <a href="javascript:;">关注</a>
-                        </div>
-                        <div class="aui-col-xs-4">
-                            <img src="image/img9.png" />
-                            <h2>唯一的①</h2>
-                            <p>活得漂亮一些，大度一些，人生</p>
-                            <a href="javascript:;">关注</a>
-                        </div>
-                        <div class="aui-col-xs-4">
-                            <img src="image/img9.png" />
-                            <h2>唯一的</h2>
-                            <p>活得漂亮一些，大度一些，人生</p>
-                            <a href="javascript:;">关注</a>
-                        </div>
-                    </div>
-                </div>
-            </li>
-        </ul>
-        <!-- end-推荐专题 -->
-        <!-- 精选文章 -->
-          <ul class="aui-list aui-media-list">
-              <li class="aui-list-item aui-list-item-arrow">
-                  <div class="aui-media-list-item-inner">
-                      <i></i>
-                      <div class="aui-list-item-inner">
-                          <div class="aui-list-item-text">
-                              <div class="aui-list-item-title">精选文章</div>
-                              <div class="aui-list-item-right">查看更多</div>
-                          </div>
-                      </div>
-                  </div>
-              </li>
-              <li class="aui-list-item">
-                <div class="aui-info aui-margin-t-5" style="padding:0">
-                    <div class="aui-info-item">
-                        <img src="image/img2.png" style="width:3rem" class="aui-img-round" />
-                        <span class="aui-margin-l-5"><span>&nbsp;自由女神</span>发表了文章&nbsp;<i>Amazon</i></span>
-                      </div>
-                    <!-- <div class="aui-info-item">2015-07-14 10:31</div> -->
-                </div>
-                <div class="aui-media-list-item-inner">
-                    <div class="aui-list-item-inner">
-
-                        <div class="aui-list-item-text">
-                            <div class="aui-list-item-title">一个新Amazon店铺如何做起来</div>
-                        </div>
-                        <div class="aui-list-item-text">
-                        <!-- 文章内容 -->
-                        <br>
-                        <br>
-                        </div>
-                        <div class="aui-list-item-text">
-                            <span>123人阅读&nbsp;•&nbsp;20人回复&nbsp;•&nbsp;去往专栏</span>
-                        </div>
-                    </div>
-                    <div class="aui-list-item-media item-media-figure">
-                        <img src="image/img10.png" alt="">
-                    </div>
-                </div>
-
-              </li>
-              <li class="aui-list-item">
-                <div class="aui-info aui-margin-t-5" style="padding:0">
-                    <div class="aui-info-item">
-                        <img src="image/img5.png" style="width:3rem" class="aui-img-round" />
-                        <span class="aui-margin-l-5"><span>&nbsp;守时大叔</span>发表了文章&nbsp;<i>Wish</i></span>
-                      </div>
-                    <!-- <div class="aui-info-item">2015-07-14 10:31</div> -->
-                </div>
-                <div class="aui-media-list-item-inner">
-                    <div class="aui-list-item-inner">
-                        <div class="aui-list-item-text">
-                            <div class="aui-list-item-title">get到这七个点，带你玩转wish</div>
-                            <!-- <div class="aui-list-item-right">08:00</div> -->
-                        </div>
-                        <div class="aui-list-item-text">
-                          <!-- 文章内容 -->
-                          <br>
-                          <br>
-                        </div>
-                        <div class="aui-list-item-text">
-                            <span>123人阅读&nbsp;•&nbsp;39人回复&nbsp;•&nbsp;专注专栏</span>
-                        </div>
-                    </div>
-                    <div class="aui-list-item-media item-media-figure">
-                        <img src="image/img11.png" alt="">
-                    </div>
-                </div>
-
-              </li>
-          </ul>
-          <!-- end-精选文章 -->
-
-
-
-    </div>
-
-    <div id="footer" class="border-t">
-        <ul class="flex-wrap" >
-          <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con active" >发现</li>
-          <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con" >提问</li>
-          <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con" >我的</li>
-        </ul>
-    </div>
 </div>
+<!-- 底部 -->
+<footer class="aui-bar aui-bar-tab" id="footer">
+    <div class="aui-bar-tab-item aui-active" tapmode="">
+        <img src="image/index/find1.png" alt="">
 
+        <!-- <i></i> -->
+        <div class="aui-bar-tab-label">发现</div>
+    </div>
+    <div class="aui-bar-tab-item" tapmode="" onclick="fnQuestion()">
+        <img src="image/index/question.png" alt="">
+        <!-- <i class="aui-iconfont aui-icon-star"></i> -->
+        <div class="aui-bar-tab-label">提问</div>
+    </div>
+    <!-- 个人中心 -->
+    <div class="aui-bar-tab-item" tapmode="" onclick="fnOpenUser()">
+      <!-- 提示 -->
+        <!-- <div class="aui-dot"></div> -->
+        <img src="image/index/main.png" alt="">
+        <!-- <i class="aui-iconfont aui-icon-my"></i> -->
+        <div class="aui-bar-tab-label">我的</div>
+    </div>
+</footer>
+
+
+
+<script type="text/javascript" src="script/api.js"></script>
+<script type="text/javascript" src="script/zepto.min.js"></script>
+<script type="text/javascript" src="script/iscroll.js"></script>
+<!-- 移动端滚动插件iScroll -->
+<script>
+  // 插件iScroll 配置项
+    var myScroll, menuOpened = false;
+    function loaded() {
+        try {
+            myScroll = new IScroll('#wrapper', {
+                eventPassthrough: true,
+                scrollX: true,
+                scrollY: false,
+                preventDefault: false
+            });
+        } catch (e) {
+            alert(e)
+        }
+    }
+    /* 导航栏点击切换 */
+    var header = $api.byId('header');
+    var footer = $api.byId('footer');
+
+    var headerH = $api.offset(header).h;  //获取元素高
+    var footerH = $api.offset(footer).h;  //获取元素高
+
+    apiready = function () {
+
+
+
+      api.openFrame({    //打开 frame
+          name: 'page2',
+          url: './html/frm_hotSpot.html',
+          scrollToTop:true,
+          progress:{
+             type:"default",
+             title:"加载中",
+             text:"小麦正在卖力加载",
+          },
+          rect: {
+              x: 0,
+              y: headerH,
+              w: 'auto',
+              h: 'auto',
+              marginBottom: footerH
+          },
+          pageParam: {     //（可选项）页面参数，页面中可以通过api.pageParam获取，JSON对象
+
+          }
+      });
+}
+  /* 搜索 */
+  function search(){
+    api.openWin({
+        name: 'search',
+        url: './html/win_search.html',
+        pageParam: {
+            name: 'test'
+        }
+    });
+      // var UISearchBar = api.require('UISearchBar');
+      // UISearchBar.open({
+      //     placeholder: '请输入搜索关键字',
+      //     historyCount: 10,
+      //     showRecordBtn: false,
+      //     texts: {
+      //         cancelText: '取消',
+      //         clearText: '清除搜索记录'
+      //     },
+      //     styles: {
+      //         navBar: {
+      //             bgColor: '#39C3BA',
+      //             borderColor: '#33AEA6'
+      //         },
+      //         searchBox: {
+      //             bgImg: 'widget://image/index/search.png',
+      //             color: '#fff',
+      //             height: 40
+      //         },
+      //         cancel: {
+      //             bg: 'rgba(0,0,0,0)',
+      //             color: '#F3FBFB',
+      //             size: 16
+      //         },
+      //         list: {
+      //             color: '#696969',
+      //             bgColor: '#FFFFFF',
+      //             borderColor: '#eee',
+      //             size: 16
+      //         },
+      //         clear: {
+      //             color: '#808080',
+      //             borderColor: '#ccc',
+      //             size: 16
+      //         }
+      //     }
+      // }, function(ret, err) {
+      //     if (ret) {
+      //         // alert(JSON.stringify(ret));
+      //         alert("ret: " + JSON.stringify(ret) + "\nerr: " + JSON.stringify(err))
+      //     } else {
+      //         alert(JSON.stringify(err));
+      //     }
+      // });
+  }
+/* 提问 */
+  function fnQuestion(){
+      var uid = $api.getStorage('userId');
+      if(uid){
+        api.openWin({
+            name: 'comQuiz',
+            url: './html/win_comQuiz.html',
+            pageParam: {
+                name: 'test'
+            },
+            animation:{
+              type:"none"
+            }
+        });
+      }else{
+        api.toast({msg: "请先登录！", location: "middle"});
+      }
+  }
+/* 我的 */
+function fnOpenUser(){
+  api.openWin({
+      name: 'user',
+      url: './html/win_footer.html',
+      pageParam: {
+          name: 'test'
+      },
+      animation:{
+        type:"none"
+      }
+  });
+
+}
+
+
+
+// function openUser(){
+//   api.closeFrame({
+//       name: 'page2'
+//   });
+//   // apiready = function () {
+//     api.openFrame({
+//         name: 'user',
+//         url: './html/frm_user.html',
+//         rect: {
+//             x: 0,
+//             y: 0,
+//             w: 'auto',
+//             h: 'auto',
+//             marginBottom: footerH
+//         },
+//         pageParam: {
+//             name: 'test'
+//         },
+//         bounces: true,
+//         bgColor: 'rgba(0,0,0,0)',
+//         vScrollBarEnabled: true,
+//         hScrollBarEnabled: true
+//     });
+// }
+/* 首页 */
+// function fnGoHome(){
+//   api.openWin({
+//       name: 'home',
+//       url: 'index.html',
+//       pageParam: {
+//           name: 'test'
+//       }
+//   });
+//
+// }
+
+</script>
 </body>
 </html>
-<script type="text/javascript" src="script/api.js"></script>
-<script type="text/javascript">
-/* 版头 */
-    apiready = function () {
-        // $api.fixStatusBar( $api.dom('header') );
-        api.setStatusBarStyle({
-            style: 'light',
-            color: '#0FC9C0'
-        });
-        document.getElementById("login_form").submit();
-        funIniGroup();
-
-        /* 下拉刷新 */
-        openFrame();
-        api.setRefreshHeaderInfo({
-            visible: true,
-            loadingImg: 'widget://image/refresh.png',
-            bgColor: '#ccc',
-            textColor: '#fff',
-            textDown: '下拉刷新...',
-            textUp: '松开刷新...',
-            showTime: true
-        }, function(ret, err){
-            alert('正在努力刷新......');
-            api.refreshHeaderLoadDone();
-        });
-
-
-    }
-
-
-    function funIniGroup(){
-        var catList = '0,2,3,4,6,8,5,1';
-        var eHeaderLis = $api.domAll('.flex-cont li');
-            frames = [];
-        for (var i = 0,len = eHeaderLis.length; i < len; i++) {
-                frames.push( {
-                    name: 'frame'+i,
-                    url: './html/frame.html',
-                    pageParam:{
-                      category:catList.split(",")[i]
-                    },
-                    bounces:true
-                } )
-        }
-        api.openFrameGroup({
-            name: 'group',
-            scrollEnabled: false,
-            rect: {
-                x: 0,
-                y: $api.dom('.aui-bar-nav').offsetHeight,
-                w: api.winWidth,
-                h: $api.dom('#main').offsetHeight
-            },
-            index: 0,
-            frames: frames
-        }, function (ret, err) {
-
-        });
-    }
-
-    // function funIniGroup(){
-    //     var eHeaderLis = $api.domAll('header li'),
-    //         frames = [];
-    //     for (var i = 0,len = eHeaderLis.length; i < len; i++) {
-    //             frames.push( {
-    //                 name: 'frame'+i,
-    //                 url: './html/frame'+i+'.html',
-    //                 bgColor : 'rgba(0,0,0,.2)',
-    //                 bounces:true
-    //             } )
-    //     }
-    //     api.openFrameGroup({
-    //         name: 'group',
-    //         scrollEnabled: false,
-    //         rect: {
-    //             x: 0,
-    //             y: $api.dom('header').offsetHeight,
-    //             w: api.winWidth,
-    //             h: $api.dom('#main').offsetHeight
-    //         },
-    //         index: 0,
-    //         frames: frames
-    //     }, function (ret, err) {
-    //
-    //     });
-    // }
-
-    // 随意切换按钮
-    function randomSwitchBtn( tag ) {
-        if( tag == $api.dom('#footer li.active') )return;
-        var eFootLis = $api.domAll('#footer li'),
-            eHeaderLis = $api.domAll('header li'),
-            index = 0;
-        for (var i = 0,len = eFootLis.length; i < len; i++) {
-            if( tag == eFootLis[i] ){
-                index = i;
-            }else{
-                $api.removeCls(eFootLis[i], 'active');
-                $api.removeCls(eHeaderLis[i], 'active');
-            }
-        }
-        $api.addCls( eFootLis[index], 'active');
-        $api.addCls( eHeaderLis[index], 'active');
-        api.setFrameGroupIndex({
-            name: 'group',
-            index: index
-        });
-    }
-</script>

@@ -1,0 +1,339 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/aui.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/common.css"/>
+</head>
+<style>
+    body {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+    }
+
+    select{
+      height: 1.2rem;
+      font-size: 14px;
+      float: left;
+      width: 80%;
+    }
+
+    .content {
+      padding:10px;
+    }
+
+    .footer {
+        background-color: #F5F5F6;
+    }
+
+    .detail-header {
+        border-bottom: 1px solid #CDCDCD;
+    }
+
+   .header .back {
+        background-position: right !important;
+        padding: 20px 13px;
+        background-size: 20px;
+    }
+
+    .replycount {
+
+        border-radius: 10px;
+        -webkit-border-top-right-radius: 0;
+        background-color: #CB393C;
+        color: #FFFFFF;
+        padding: 5px
+    }
+
+    .detail-header .reply {
+        padding: 10px;
+
+    }
+
+    .star {
+        background-size: 30px;
+        background-image: url("../image/night_icon_star_full@2x.png");
+        background-position: center;;
+        background-repeat: no-repeat no-repeat;
+    }
+
+    .replytext {
+        margin-top: 5px;
+        padding-left: 10px;
+        height: 40px;
+        margin-left: 10px;
+        display: block;
+        -webkit-box-flex: 1;
+        border: 1px solid #C7C7C7;
+        border-radius: 20px;
+        background-color: #FFFFFF;
+    }
+    .title{
+        line-height: 44px;
+        text-align: center;
+        margin-left: 49px;
+    }
+    .reply .iconfont-share{
+      background: url(../image/index/share.png);
+      width: 20px;
+      height: 20px;
+      background-repeat: no-repeat;
+      background-size:20px;
+    }
+    .reply>span{color: #fff;}
+
+    /* 编辑评论 */
+    .con-edit{
+
+    }
+    .con-edit>p{
+      margin-bottom: 10px;
+    }
+    .con-edit>div>textarea{
+      border:1px solid #EFEFEF;
+      border-radius: 4px;
+      background-color: #F5F5F5;
+      padding:5px 10px;
+      font-size: 12px;
+      height: 100px;
+    }
+    /* 内容标题 */
+    .con-text{
+      width: 100%;
+      background-color: #fff;
+      padding:10px;
+    }
+    .con-title{
+      line-height: 30px;
+      float: right;
+    }
+    .con-text>p{
+      float: left;
+    }
+    .con-next{
+      width: 90%;
+      margin:20px auto;
+      text-align: center;
+      line-height: 30px;
+      background-color: #39C3BA;
+      color: #fff;
+      border-radius: 3px;
+    }
+    /* 话题选择 */
+    /*.con-chiose-nav{
+      display: flex;
+    }*/
+    .con-chiose-nav>h3{
+      line-height: 30px;
+      font-size: 14px;
+    }
+    .con-chiose-nav>a{
+      width: 31%;float: left;
+      line-height: 23px;
+      border-radius: 3px;
+      background-color: #fff;
+      margin-right: 3%;
+      font-size: 11px;
+      margin-bottom: 10px;
+      text-align: center;
+      display: block;
+      color: #000;
+    }
+    .con-chiose-nav>a:nth-child(3n+1){
+      margin-right: 0;
+    }
+    .con-chiose-nav>a.selected{
+      background-color: #39C3BA;
+      color: #fff;
+    }
+    .aui-iconfont{
+      float: right;
+      width: 10%;
+    }
+</style>
+<body>
+<header>
+    <div class="header">
+        <div class="btn back" tapmode="" onclick="api.closeWin()"></div>
+        <div class="header-title" id="title">相关话题</div>
+
+    </div>
+</header>
+<div class="con-text">
+  <p>请选择相关话题</p>
+  <div class="con-title">
+    <select name="" id="category_html" onchange="set_category()">
+
+    </select>
+    <i class="aui-iconfont aui-icon-right"></i>
+  </div>
+</div>
+<!-- 选择话题 -->
+<div class="content">
+  <div class="con-chiose-nav" id="topic_html">
+    <h3>选择话题（必选，最多三项）</h3>
+      <!-- <a>Amazon</a>
+      <a class="selected">Amazon开店</a>
+      <a>Amazon产品</a>
+      <a>Amazon站内广告</a>
+      <a>Amazon站外推广</a>
+      <a>Amazon账号安全</a> -->
+  </div>
+</div>
+
+<div class="con-next" onclick="publish_question();">发布</div>
+
+
+<script src="../script/api.js"></script>
+<script src="../script/zepto.min.js"></script>
+
+<script>
+
+    apiready = function () {
+        var pageParam     = api.pageParam;
+        get_category(pageParam.category_id);
+        get_topics(pageParam.category_id);
+
+    }
+
+
+    function fnSelect(this_) {
+        // this_.toggleClass("selected");
+        var chioseN = $(".con-chiose-nav").find("a");
+         var selectN = $(".selected");
+         if(this_.hasClass("selected")){
+           this_.removeClass("selected");
+         }else{
+
+           if(selectN.length>=3){
+             return;
+           }else{
+              this_.addClass("selected");
+           }
+         }
+      }
+
+    function set_category(){
+        var category_id = $('#category_html').val();
+        $('#topic_html').find("a").remove();
+        get_topics(category_id);
+    }
+
+
+   function get_category(category_id){
+       api.ajax({
+         url: 'http://www.maiyanx.com/wecenter_api/get_category_list/',
+         method: 'post',
+         data: {
+           values: {
+            category_id:category_id
+           },
+         }
+         }, function(ret, err) {
+               if (ret) {
+                     var category_html  = '';
+                     for (var key in ret) {
+                       if(ret[key]['lx'] == 1){
+                          if(category_id == ret[key]['id']){
+                                  category_html += '<option  selected="true" value="'+ret[key]['id']+'">'+ret[key]['title']+'</option>';
+                          }else{
+                                category_html += '<option  value="'+ret[key]['id']+'">'+ret[key]['title']+'</option>';
+                          }
+
+                       }
+                     }
+
+                   $('#category_html').append(category_html);
+               }else{
+                 api.alert({ msg: JSON.stringify(err) });
+               }
+         });
+   }
+
+
+   function get_topics(category_id){
+     api.ajax({
+       url: 'http://www.maiyanx.com/wecenter_api/sort_sifting/',
+       method: 'post',
+       data: {
+         values: {
+            category_id:category_id
+         },
+       }
+       }, function(ret, err) {
+             if (ret.errno == 1) {
+                   var topic_html  = '';
+                   for (var key in ret.rsm) {
+                            topic_html +=  '<a onclick="fnSelect($(this));">'+ret.rsm[key].topic_title+'</a>';
+                   }
+
+                 $('#topic_html').append(topic_html);
+             }else{
+               api.alert({msg:JSON.stringify(err)});
+             }
+       });
+  }
+
+  function publish_question(){
+        var uid = $api.getStorage('userId');
+
+
+      var category_id = $('#category_html').val();
+      var selectN = $(".selected");
+      var topics;
+      for (var i = 0; i < selectN.length; i++) {
+          topics +=  ','+selectN.eq(i).html();
+      }
+
+
+      var pageParam     = api.pageParam;
+      var attach_access_key =pageParam.attach_access_key;
+      var question_title = pageParam.question_title;
+      var publish_detail = pageParam.publish_detail;
+        // console.log(question_title);
+        // console.log(publish_detail);
+        // console.log(attach_access_key);
+        // console.log(category_id);
+        // console.log(uid);
+        // console.log(topics);
+      api.ajax({
+        url: 'http://www.maiyanx.com/wecenter_api/publish_question/',
+        method: 'post',
+        data: {
+          values: {
+             category_id:category_id,
+             question_content:question_title,
+             question_detail:publish_detail,
+             attach_access_key:attach_access_key,
+             topics_str:topics,
+             uid:uid
+          },
+        }
+        }, function(ret, err) {
+              if (ret.errno == 1) {
+                    api.toast({msg: ret.err, location: "middle"});
+                    api.openWin({
+                        name: 'QuestionWin',
+                        url: './win_queDetail.html',
+                        scrollToTop:true,
+                        progress:{
+                           type:"default",
+                           title:"加载中",
+                           text:"小麦正在卖力加载",
+                        },
+                        pageParam: {
+                            question_id: ret.rsm,
+                        }
+                    });
+              }else{
+                  api.alert({msg:JSON.stringify(ret.err)});
+                      console.log(JSON.stringify(ret));
+              }
+        });
+  }
+</script>
+</body>
+</html>

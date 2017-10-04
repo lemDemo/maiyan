@@ -1,0 +1,140 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <title>window</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/common.css"/>
+    <style>
+        html, body {
+            height: 100%;
+            min-width: 320px;
+        }
+        body {
+            font-size: 14px;
+        }
+        .btn.back{
+          background-position: right;
+          padding: 20px 15px;
+        }
+
+        nav#nav {
+          display: -webkit-box;
+          display: -webkit-flex;
+          display: flex;
+          -webkit-box-orient:horizontal;
+          -webkit-flex-flow:row;
+          flex-flow: row;
+          position: relative;
+          width: 100%;
+          height: 40px;
+          line-height: 40px;
+        }
+        nav#nav .menu{
+          -webkit-box-flex:1;
+          -webkit-flex:1;
+          flex: 1;
+          width: 100%;
+          height: 40px;
+          line-height: 40px;
+          font-size: 14px;color: #999;
+          text-align: center;
+        }
+        nav#nav .menu.selected{
+          font-size: 14px;color: #00CEC2;
+          font-weight: bold;
+        }
+
+    </style>
+</head>
+<body>
+<header>
+    <div class="header">
+        <div class="btn back" tapmode="" onclick="api.closeWin()"></div>
+        <div class="header-title">
+            列表
+        </div>
+        <div class="btn"></div>
+    </div>
+</header>
+<nav id="nav">
+      <!-- tapmode="selected"点击加速-消除点击延时 -->
+      <div class="menu selected" tapmode="selected" onclick="fnSetNavMenuIndex(0)">问题</div>
+      <div class="menu" tapmode="selected" onclick="fnSetNavMenuIndex(1)">文章</div>
+    </nav>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/zepto.min.js"></script>
+<script>
+
+    apiready=function(){
+
+      var pageParam = api.pageParam;
+      $('.header-title').html(pageParam.category_title);  //标题根据分类名称替换
+      var category_id = pageParam.category_id;
+  //    console.log(JSON.stringify(category_id));
+
+        $api.fixStatusBar($api.dom( ".header" ));
+        menus = $api.domAll(nav, '.menu');
+        var frames = [];
+         for (var i = 0; i < menus.length; i++) {
+           frames.push({
+               name: 'frm_topLine_' + i,
+               url: './frm_topLine' + i + '.html',
+               pageParam:{
+                   category_id:category_id
+               }
+           });
+         }
+        api.openFrameGroup({
+            name:'topLineFrameGroup',
+            // url:'frm_topLine.html',
+            scrollEnabled: true,
+
+            rect:{
+                x:0,
+                y: $("header").height() + $("#nav").height(),
+                w:'auto',
+                h:'auto'
+            },
+            index: 0,
+            frames: frames
+        }, function(ret, err){
+          api.toast({
+              msg: '加载中...',
+              duration: 500,
+              location: 'middle'
+            });
+            fnSetNavMenuSelected(ret.index);
+
+        });
+
+        // fnCloseFlower()
+
+    }
+
+    var menus;
+    function fnSetNavMenuSelected (index_){
+      for (var i = 0; i < menus.length; i++) {
+        if(index_ == i){
+          $api.addCls(menus[i], 'selected');
+        }else{
+          $api.removeCls(menus[i], 'selected');
+        }
+      }
+    }
+    /* 导航栏点击切换 */
+    function  fnSetNavMenuIndex(index_){
+      fnSetNavMenuSelected(index_);
+      api.setFrameGroupIndex({
+          name: 'topLineFrameGroup',
+          index: index_,
+          scroll: true
+      });
+    }
+
+
+
+</script>
+</body>
+</html>

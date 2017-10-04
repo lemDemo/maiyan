@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/common.css"/>
+    <style>
+        body{
+          background-color: #F5F5F5;
+        }
+        .detail-header{
+            border-bottom: 1px solid #CDCDCD;
+            /*background-color: #DD3237;*/
+        }
+        .back{
+            background-size: 20px!important;
+            background-image: url("../image/weather_back@2x.png");
+            background-position: right!important;
+        }
+
+        .detail-header a{
+            padding:15px;
+        }
+        .title{
+            color: #FFFFFF;
+            text-align: center;
+            line-height:50px;
+            font-size: 16px;
+        }
+
+        .mine li, .bottom li {
+            display: inline-block;
+            width: 32%;
+            text-align: center;
+            padding: 20px 0 6px;
+            background-size: 30px;
+            background-repeat: no-repeat;
+            background-position: top;
+        }
+
+        .activity {
+          margin-top: 10px;
+          padding: 0 10px;
+          background-color: #fff;
+        }
+
+        .activity li {
+            position: relative;
+            padding: 12px 0;
+            background-size: 8px;
+            background-repeat: no-repeat;
+            background-position: right;
+          /*background-image: url("../image/setting_cell_arrow@2x.png");*/
+            border-bottom: 1px solid #F6F6F6;
+        }
+        .no-arrow{
+            background-image:none!important;
+        }
+        .value {
+            position: absolute;
+            right:20px;
+            color: #606060;
+        }
+        li.email>span.value{
+          color: #F50701;
+        }
+
+        .btn {
+            display: block;
+            color: #FFFFFF;
+            margin: 0 15px;
+            text-align: center;
+            border-radius: 4px;
+            height: 40px;
+            line-height: 40px;
+            border: 1px solid #CECECE;
+            background-color:#39C3BA ;
+            margin-top: 20px;
+        }
+        .user-photo{
+            background-position: center center;
+            background-size: 30px;
+            width: 30px;
+            height: 30px;
+            bottom: 7px;
+            background-image: url("../image/user_weiboimage_netease@2x.png");
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="header detail-header">
+        <a class="back" tapmode="" onclick="closeWin()"></a>
+        <div class="title" id="title">查看个人资料</div>
+        <a></a>
+    </div>
+</header>
+<ul class="activity">
+    <li>
+        <span class="key">头像</span>
+        <span class="value user-photo">
+        </span>
+    </li>
+    <li>
+        <span class="key">用户名</span>
+        <span class="value user_name">未知</span>
+    </li>
+    <li>
+        <span class="key">个性签名</span>
+        <span class="value signature">未知</span>
+    </li>
+    <li>
+        <span class="key">性别</span>
+        <span class="value sex">未知</span>
+    </li>
+    <li>
+        <span class="key">生日</span>
+        <span class="value birthday">未知</span>
+    </li>
+    <li>
+        <span class="key">职业</span>
+        <span class="value job_id">未知</span>
+    </li>
+</ul>
+<ul class="activity">
+    <li>
+        <span class="key">手机号</span>
+        <span class="value mobile">未知</span>
+    </li>
+    <li>
+        <span class="key">邮箱</span>
+        <span class="value email">未绑定</span>
+    </li>
+    <li>
+        <span class="key">现居地</span>
+        <span class="value province">未知</span>
+    </li>
+</ul>
+<!-- <div class="btn" id="login" tapmode="" onclick="logout()">登出</div> -->
+<script src="../script/api.js"></script>
+<script src="../script/zepto.min.js"></script>
+<script>
+    apiready = function () {
+        $api.fixStatusBar($api.dom( ".header" ));
+
+        var user_info = $api.getStorage('userinfo');
+        if(user_info){
+          //头像
+          var img_src = 'http://www.maiyanx.com/uploads/avatar/'+user_info.avatar_file;
+          $('.user-photo').css('background-image','url('+img_src+')');
+
+          //用户名
+          $('.user_name').html(user_info.user_name);
+
+          //个人签名
+          if(user_info.signature){
+                  $('.signature').html(user_info.signature);
+          }
+          //邮箱
+          if(user_info.email){
+                  $('.email').html(user_info.email);
+          }
+          //手机号
+          if(user_info.mobile){
+                  $('.mobile').html(user_info.mobile);
+          }
+          //职位
+          if(user_info.job_id){
+                  $('.job_id').html(user_info.job_info.job_name);
+          }
+          //生日
+          if(user_info.birthday){
+                  $('.birthday').html(user_info.birthday);
+          }
+
+          //性别
+          if(user_info.sex){
+            var sex = '未知';
+            switch (user_info.sex) {
+              case 1:
+                sex = '男';
+                break;
+              case 2:
+                sex = '女';
+                break;
+                break;
+              case 3:
+                sex = '保密';
+                break;
+            }
+            $('.sex').html(sex);
+          }
+
+        }else{
+            api.closeToWin({
+              name: 'user'
+            });
+        }
+
+        //现居地址
+        if(user_info.province){
+              var province = user_info.province+'-'+user_info.city;
+              $('.province').html(province);
+        }
+    };
+
+    function closeWin() {
+        api.closeWin({
+
+        })
+    }
+  /* 选择地址 */
+    // function fnAddress(){
+    //
+    //   // apiready = function() {
+    //       var addressView = api.require('addressView');
+    //       addressView.open({
+    //           file_addr: 'widget://res/district.txt', //数据源地址
+    //           selected_color: '#ff0000', //颜色
+    //           pro_id: 410000, //省id
+    //           city_id: 410100, //市id
+    //           dir_id: 410104 //区id
+    //       });
+    //       $api.addEvt($api.byId("addressView"), 'click', function() {
+    //           addressView.show({}, function(ret, err) {
+    //               if (ret.status) {
+    //                   alert(JSON.stringify(ret)); //返回值
+    //               }
+    //           });
+    //       });
+    //   // };
+    // }
+
+</script>
+</body>
+</html>

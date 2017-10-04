@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/common.css"/>
+    <style>
+        body {
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+        }
+        .login-header-btn{
+            display: block;
+            background-size: 30px;
+            padding: 20px;
+        }
+        .content {
+            -webkit-box-flex: 1;
+        }
+
+        .detail-header {
+            border-bottom: 1px solid #CDCDCD;
+            /*background-color: #DD3237;*/
+        }
+
+        .back {
+            background-size: 20px !important;
+            background-image: url("../image/weather_back@2x.png");
+            background-position: right !important;
+        }
+
+        .detail-header a {
+            padding: 25px;
+        }
+
+        .title {
+            color: #FFFFFF;
+            text-align: center;
+            line-height: 50px;
+            font-size: 18px;
+        }
+
+        i {
+            display: block;
+            width: 30px;
+            height: 30px;
+            background-size: 16px;
+            background-repeat: no-repeat no-repeat;
+            background-position: center;
+        }
+
+        .user {
+            background-image: url("../image/main/phone.png");
+        }
+
+        .code {
+            background-image: url("../image/main/code.png");
+        }
+        .password {
+            background-image: url("../image/main/key.png");
+        }
+        .uname {
+            background-image: url("../image/main/uname.png");
+        }
+
+        .input-wrap {
+            padding: 10px 0;
+            display: -webkit-box;
+            border-bottom: 1px solid #d4d4d4;
+        }
+
+        .form {
+            background-color: rgba(255, 255, 255, 0.8);
+            margin: 20px;
+            border-radius: 8px;
+            padding: 0 10px;
+            line-height: 30px;
+        }
+
+        .input-wrap input {
+            display: block;
+            -webkit-box-flex: 1;
+            background-color: rgba(255, 255, 255, 0);
+            outline: none;
+            height: 32px;
+            font-family:Microsoft YaHei;
+        }
+
+        .input-wrap input[type="button"]{
+          display: inline-block;
+          padding:0 10px;
+          font-size: 13px;
+          color: #39C3BA;
+          border-left: 1px solid #ddd;
+          height: 20px;
+
+        }
+
+        .find-pwd {
+            text-align: right;
+            margin: 40px;
+        }
+
+        .btn {
+            display: block;
+            color: #fff;
+            margin: 0 30px;
+            text-align: center;
+            border-radius: 4px;
+            height: 40px;
+            line-height: 40px;
+            border: 1px solid #CECECE;
+            background-color: #39C3BA;
+        }
+
+        input {
+            padding-left: 10px;
+            font-size: 14px;
+        }
+        /* 验证错误提示 */
+        .error-txt{
+          display: none;
+        }
+        .input-error{
+          border-bottom-color: #EB4335;
+        }
+        .input-error>.error-txt{
+          display: block;
+          background-image: url("../image/main/sign-error-icon.png");
+          position: absolute;
+          right: 25px;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="header detail-header">
+        <div class="back login-header-btn" tapmode="" onclick="closeWin()"></div>
+
+        <div class="title" id="title">注册</div>
+        <div class="login-header-btn"></div>
+    </div>
+</header>
+<div class="content">
+    <div class="form">
+      <div class="input-wrap">
+          <!-- <i class="error-txt"></i> -->
+          <i class="uname"></i>
+          <input type="text" placeholder="昵称" id="user_name" value="">
+      </div>
+        <div class="input-wrap">
+            <i class="user"></i>
+            <input type="text" placeholder="请输入手机号或邮箱" id="account" value="">
+        </div>
+        <div class="input-wrap">
+            <i class="code"></i>
+            <input type="text" placeholder="请输入验证码" id="code" value="">
+            <input type="button" id="verCode" value="获取验证码">
+        </div>
+        <div class="input-wrap">
+            <i class="password"></i>
+            <input type="password" placeholder="请输入密码（至少6位）" id="password" value="">
+        </div>
+    </div>
+    <div class="btn" id="login" tapmode="" onclick="register()">注册</div>
+</div>
+<script src="../script/api.js"></script>
+<script src="../script/zepto.min.js"></script>
+<script>
+console.log();
+    apiready = function () {
+    // 用户名
+      $("#user_name").blur(function(){
+        var user_name = $("#user_name").val();
+        // alert("111");
+        verify_user_name(user_name);
+      })
+      // 验证码
+
+      $("#verCode").click(function(){
+        var account = $("#account").val();
+        // alert("111");
+        verify_code(account);
+      })
+
+    };
+    function closeWin() {
+        api.closeWin({
+
+        })
+    }
+    function register() {
+        api.showProgress();
+
+
+        var account = $("#account").val();
+        var user_name = $("#user_name").val();
+        var password = $("#password").val();
+        var code = $("#code").val();
+        if(!account){
+              api.toast({msg: "请填写账号！", location: "middle"});
+        }else if(!user_name){
+            api.toast({msg: "请填写昵称！", location: "middle"});
+        }else if(!password){
+            api.toast({msg: "请填写密码！", location: "middle"});
+        }else if(!code){
+            api.toast({msg: "请填写验证码！", location: "middle"});
+        }else{
+          api.ajax({
+              url: 'http://www.maiyanx.com/wecenter_api/get_register/',
+              method: 'post',
+              dataType : 'json',
+              data: {
+                  values: {
+                      seccode_account : code,
+                      account : account,
+                      user_name : user_name,
+                      password:password
+                  }
+              }
+          }, function(ret, err) {
+
+              if (ret.errno == 1) {
+                    // console.log(JSON.stringify(ret));
+                    var user_info = ret.err;
+                    $api.setStorage('userId', user_info.uid);
+                    $api.setStorage('userinfo', user_info);
+
+                    api.sendEvent({ //设置要监听的事件
+                      name: 'is_reload',
+                      extra: {
+                          reload: '1',
+                      }
+                    });
+                    api.closeToWin({
+                      name: 'user'
+                  });
+              }else{
+                  api.toast({msg: ret.err, location: "middle"})
+              }
+
+          });
+        }
+        api.hideProgress();
+    }
+
+    function verify_user_name(user_name){
+      api.ajax({
+          url: 'http://www.maiyanx.com/wecenter_api/verify_user_name/',
+          method: 'post',
+          dataType : 'json',
+          data: {
+              values: {
+                  user_name : user_name
+              }
+          }
+      }, function(ret, err) {
+        console.log(user_name);
+          if (ret) {
+                if(ret.errno == 1){
+                      //可以用
+                  $("#user_name").parent().removeClass("input-error");
+                }else{
+                  //
+                  $("#user_name").parent().addClass("input-error");
+                    //不可用   提示语   ret.err
+                    api.toast({msg: ret.err, location: "middle"})
+                }
+          }
+        });
+    }
+// 验证码
+    function verify_code(account){
+      api.ajax({
+          url: 'http://www.maiyanx.com/account/ajax/send_account_code/',
+          method: 'post',
+          dataType : 'json',
+          data: {
+              values: {
+                  account : account
+              }
+          }
+      }, function(ret, err) {
+          if (ret) {
+                if(ret.errno == 1){
+                  console.log("success");
+                  //发送成功
+                  settime($("#verCode"));
+                }else{
+                    //失败   提示语   ret.err
+                    api.toast({msg: ret.err, location: "middle"})
+                }
+          }
+        });
+    }
+var countdown = 60;
+    function settime(obj) { //发送验证码倒计时
+        if (countdown == 0) {
+            // $api.removeAttr($api.byId("verCode"), 'onclick');
+            obj.css('color','#39C3BA');
+            obj.val("重新获取验证码");
+            countdown = 60;
+            console.log(countdown);
+            return;
+        } else {
+            // obj.attr('disabled', true);
+            obj.val("重新发送(" + countdown + ")");
+            obj.css('color','#ACACAC');
+            countdown--;
+        }
+        setTimeout(function() {
+            settime(obj);
+        }, 1000)
+    }
+
+</script>
+</body>
+</html>

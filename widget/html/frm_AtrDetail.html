@@ -1,0 +1,627 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <title>frame</title>
+    <link rel="stylesheet" type="text/css" href="../css/aui.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <script type="text/javascript" src="../script/zepto.min.js"></script>
+
+    <style>
+        html, body {
+            height: 100%;
+            min-width: 320px;
+            font-family: "微软雅黑"
+        }
+
+        body {
+            font-size: 14px;
+        }
+
+        * {
+            outline: 0;
+        }
+
+        .textarea {
+            margin: 10px 0;
+            height: 65px;
+            text-align: center;
+        }
+
+        textarea {
+            width: 96%;
+            height: 100%;
+            background-color: #ffffff;
+            border: 1px solid #E4E4E4;
+            padding: 5px;
+            resize: none;
+        }
+
+        .content {
+            padding: 10px;
+        }
+
+        .tie-title {
+            font-size: 18px;
+            line-height: 25px;
+            letter-spacing: 1px;
+        }
+
+        .form {
+            padding-bottom: 10px;
+            border-bottom: 1px solid #E5E5E5;
+        }
+
+        .inputWarp {
+            margin-top: 30px;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
+        }
+
+        .input {
+            border: 1px solid #E4E4E4;
+            width: 34%;
+            height: 30px;
+            background-color: #ffffff;
+            line-height: 30px;
+        }
+
+        .input input {
+            width: 90%;
+            padding-left: 5px;
+        }
+
+        .input:first-child {
+            border-right: none;
+        }
+
+        .buttonWrap {
+            -webkit-box-flex: 1;
+            -webkit-flex: 1;
+            flex: 1;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-align: center;
+            -webkit-box-pack: end;
+        }
+
+        .button {
+            border: 1px solid #6ab494;
+            background-color: #6ab494;
+            color: #ffffff;
+            padding: 7px 14px;
+            text-align: center;
+        }
+
+        .comment-author {
+            font-size: 14px;
+            line-height: 1.25;
+            margin: 7px 0 5px 3px;
+            color: #323237;
+        }
+
+        .comment-content {
+            margin: 8px 5px 8px 3px;
+            line-height:18px;
+            font-size: 16px;
+        }
+
+        .comment-oper {
+            text-align: right;
+            font-size: 14px;
+        }
+
+        .commentbox-wrap li span {
+            color: #1e50a2;
+        }
+
+        .comment-oper span {
+            padding:5px;
+        }
+        .commentbox-wrap li {
+            padding: 7px 10px;
+            border-bottom: 1px solid #e5e5e5;
+            letter-spacing: 1px;
+        }
+        .comment-vote{
+            color: #ba2636;
+        }
+
+        .aui-img-round{
+          position: relative;
+          float: left;
+          width: 35px;
+          margin: 0 7px 0 0;
+
+        }
+        .add-follow{
+          position: absolute;;
+          right: 0;
+          top: 10%;
+          background-color: #39C3BA;
+          color: #fff;
+          padding:5px 10px;
+          border-radius: 3px;
+          font-size: 12px;
+        }
+        .add-follow.active{
+          background-color: #ccc;
+          padding:5px 13px;
+        }
+        /* 标签 */
+        .content .tie-tag{
+          height: 30px;
+          line-height: 30px;
+          border-bottom: 1px solid #EBEBEB;
+          margin-bottom: 7px;
+        }
+          .content .tie-tag>span{
+            font-size: 12px;
+            color: #fff;
+            background-color: #CCC;
+            border-radius: 4px;
+            padding: 0 5px;
+            line-height: 20px;
+          }
+        /* 文章-用户信息 */
+        .aui-img-introduce{
+          display: block;
+        }
+        .aui-img-introduce>p{
+          /*width: 100%;*/
+          color: #808080;
+          font-size: 12px;
+        }
+        .aui-info-item{
+            width: 100%;
+        }
+        /* 文章内容 */
+        .tie-title{
+          margin:10px 0;
+        }
+        .tie-connav>p{
+          color:#808080;
+          line-height: 25px;
+          font-size: 13px;
+        }
+        .tie-connav>h4{
+          line-height: 25px;
+        }
+        .tie-connav>img{
+          max-width: 100%;
+          margin:10px 0;
+        }
+        .tie-browse{
+          line-height: 30px;
+          background-color: #F5F5F5;
+          padding: 0 10px;
+        }
+        .aui-info-title{
+          font-size: 12px;
+          /*color: #999;*/
+        }
+        .aui-list .aui-list-item{
+
+          padding-left: 0;
+        }
+        .aui-card-list-footer{
+          display: block;
+          border-bottom: 1px solid #E3E3E3;
+        }
+        .aui-card-list-footer>div{
+          float: left;
+          margin-right: 15px;
+          font-size: 13px;
+        }
+        /* 回复 */
+        .list-reply{
+          width: 80%;
+          margin:10px auto 0;
+          padding-left: 5px;
+          border-left: 1px solid #E3E3E3;
+        }
+        .aui-info-item >.reply-item{
+          color: #999;
+        }
+
+        input.anser{
+          width: 20px;
+        }
+        /* 底部栏 */
+        .aui-bar-tab-item{
+          font-size: 12px;
+        }
+
+        ul#comments_list{
+          margin-bottom: 40px;
+        }
+
+        input.huifu{
+          font-size: 12px;
+        }
+
+        .aui-bar-tab-item:nth-child(2)>span{
+          font-size: 14px;
+        }
+        .aui-card-list-footer>div.unclike{
+          display: none;
+        }
+        .aui-card-list-footer>div.clike{
+          display: block;
+        }
+    </style>
+
+</head>
+<body>
+<div class="content" id="content_info">
+  <!-- 标签 -->
+  <div class="tie-tag">
+    <!-- <span>Amazon产品</span>
+    <span>Amazon产品开发</span> -->
+  </div>
+  <!-- 信息条 -->
+  <!-- <div class="aui-info">
+      <div class="aui-info-item">
+        <img src="../image/content/img1.png" class="aui-img-round" />
+        <div class="aui-img-introduce">
+          <span class="aui-margin-l-5">皮皮虾</span>
+          <p class="">2015-07-13 22:31</p>
+        </div>
+        <a href="#" class="add-follow">+关注专栏</a>
+      </div>
+  </div>
+  <h3 class="tie-title">亚马逊选品技巧策略你知道哪些？</h3>
+  <div class="tie-connav">
+    <p>谈到亚马逊运营，我们都知道亚马逊重产品轻店铺，我们也总说“七分靠选品，三分在运营”，可很多卖家在选品上总是不得要领。在实际运营中，对于亚马逊选品这个老生常谈的话题，我们需要考虑哪些点呢?
+  亚马逊选品的依据有哪些?</p>
+    <h4>一、市场容量</h4>
+    <p>在选品中，市场容量是一个非常重要的参量，亚马逊运营中的爆款策略一直是众多卖家心向往之的运营方向，可是你所选择的产品市场容量很小，爆款打造自然也就成为不可能。所以，选品时，尽可能选择市场容量较大的类目和产品。</p>
+    <img src="../image/content/pic.png" alt="">
+    <h4>二、竞争热度</h4>
+    <p>不同的类目和产品，竞争热度是有区别的。卖家要想在运营中有更快的突破，选择竞争热度低的产品自然是更有利的。如果一个产品市场容量足够而同时竞争热度小，是很容易在销量上达到预期的。但是竞争热度和市场容量又往往是成正比的，市场容量大的产品，往往竞争也是比较激烈的，竞争小的产品，市场容量往往也不大，面对这种情况，建议如果利润空间足够，卖家不妨优先考虑市场容量大的产品。</p>
+    <h4>三、利润空间</h4>
+    <p>关于利润，建议选择利润绝对值足够大的产品。原因是在当前激烈的竞争中，亚马逊的运营已经不再是单一维度的优势就可以成功的了。要想在运营中取得成绩，就必须充分运用各种运营技巧，而很多的技巧和方法都是需要资金投入的，可以想象，一个利润率高利润绝对值低的产品，是不足以支撑起比如站内广告这种主动型的运营手法的。</p>
+  </div>
+
+<!-- 浏览 · 点赞 · 评论
+<div class="tie-browse">
+  <p>456人阅读&nbsp;·&nbsp;50人点赞&nbsp;·&nbsp;30人评论</p>-->
+<!-- </div> -->
+</div>
+
+<div class="content">
+<!-- 评论 -->
+  <ul class="aui-list aui-media-list"  id="comments_list">
+
+    <!-- <li class="aui-list-item">
+      <div class="aui-info">
+          <div class="aui-info-item">
+            <img src="../image/content/img1.png" class="aui-img-round" />
+            <div class="aui-img-introduce">
+              <span class="aui-margin-l-5">在世英雄</span>
+              <p class="">人一生中美好的事情就是遇见了你 — 麦言</p>
+            </div>
+          </div>
+      </div>
+      <div class="aui-info-title">这个麦言社区里面文章特别好，建议都去看下，希望能帮到你，这里是网址thhp://www.maiyanx.com</div>
+
+      <div class="aui-card-list-footer">
+        <!-- <div><i class="aui-iconfont aui-icon-star"></i> 收藏</div>
+        <div><i class="aui-iconfont aui-icon-laud"></i> 点赞</div>
+        <div><i class="aui-iconfont aui-icon-comment"></i> 回复</div>
+      </div>
+      <!-- 回复
+      <div class="list-reply">
+      <ul class="aui-list aui-media-list">
+            <li class="aui-list-item">
+              <div class="aui-info" style="padding:5px 0">
+                  <div class="aui-info-item">
+                      <img src="../image/content/img2.png" style="width:30px" class="aui-img-round" />
+                      <span class="reply-item">南希回复了在世英雄</span>
+                  </div>
+              </div>
+                <div class="aui-media-list-item-inner">
+                  <div class="aui-list-item-title">感谢你的分享，真的是一个很好的网站</div>
+                </div>
+            </li>
+            <li class="aui-list-item">
+              <div class="aui-info" style="padding:5px 0">
+                  <div class="aui-info-item">
+                      <img src="../image/content/img1.png" style="width:30px" class="aui-img-round" />
+                      <span class="reply-item">在世英雄回复了南希</span>
+                  </div>
+              </div>
+                <div class="aui-media-list-item-inner">
+                  <div class="aui-list-item-title">不客气，这个网站有很多干货</div>
+                </div>
+            </li>
+        </ul>
+      </div>
+    </li> -->
+
+
+  </ul>
+</div>
+<footer class="aui-bar aui-bar-tab">
+    <div class="aui-bar-tab-item aui-padded-l-15 aui-padded-r-15" tapmode style="width: auto;">
+        <div class="search-input aui-font-size-14" onclick="edit()">评论...</div>
+        <!-- <input class="huifu" type="text" placeholder="评论..."/> -->
+    </div>
+    <div class="aui-bar-tab-item" tapmode style="width: 2.2rem;" onclick="clearUp()">
+        <!-- <i class="aui-iconfont aui-icon-comment"></i> -->
+        <span>评论</span>
+    </div>
+    <!-- <div class="aui-bar-tab-item" tapmode style="width: 2.2rem;">
+        <i class="aui-iconfont aui-icon-star"></i>
+        <span>收藏</span>
+    </div> -->
+
+</footer>
+<script src="../script/api.js"></script>
+<script>
+      apiready = function () {
+        api.addEventListener({ //查看监听的事件 is_reload  判断是否需要刷新页面
+            name: 'is_reload'
+        }, function(ret, err) {
+            if(ret.value.reload){
+                  api.sendEvent({  //设置要监听的事件
+                    name: 'is_reload',
+                    extra: {
+                        reload: null,
+                    }
+                });
+                location.reload();
+            }
+        });
+          var pageParam = api.pageParam;
+          var article_id =  pageParam.article_id;
+          get_article_info(article_id);
+          /* 页面滑动 */
+          $(".content").on('touchmove',function(event){
+              var inputH = $("input.huifu");
+              if(inputH.length>0){
+                /* 回复框是否有值 */
+                if(inputH.val() == "" || inputH.val() == 'null'){
+                  $(".aui-padded-l-15").html('<div class="search-input aui-font-size-14" onclick="edit()">评论...</div>');
+                }
+              }
+          });
+          $(".aui-card-list-footer").find("div.clike").html('<i class="aui-iconfont aui-icon-laud"></i> 已赞');
+        }
+
+
+
+      /* 编辑评论页面 */
+        function edit(){
+          var pageParam = api.pageParam;
+          var article_id =  pageParam.article_id;
+            // $("input.huifu").css('display','block');
+            api.openWin({
+                name:'win_edit_comment',
+                url:'win_comment.html',
+                pageParam: {
+                    article_id: article_id
+                }
+            })
+      }
+
+
+    function get_article_info(article_id){
+      var uid = $api.getStorage('userId');
+      var followt = '+关注专栏';
+      var flClass = "";
+      api.ajax({
+          url: 'http://www.maiyanx.com/wecenter_api/get_article_info/',
+          method: 'post',
+          dataType : 'json',
+          data: {
+              values: {
+                  id : article_id,
+                  user_id: uid
+              }
+          }
+      }, function(ret, err) {
+          if (ret) {
+            var data = ret;
+              //  console.log(JSON.stringify(data));
+            if(data.topics){ //话题
+                var str_topic ='';
+                for (var i = 0; i < data.topics.length; i++) {
+                  if(data.user_follow_check){
+                    followt = '取消关注';
+                    flClass = "add-follow active";
+                  }else{
+                    followt = '+关注专栏';
+                    flClass = "add-follow";
+                  }
+                  str_topic += '<span>'+data.topics[i]['topic_title']+'</span>&nbsp;';
+                }
+                 $('.tie-tag').append(str_topic);
+             }
+                //文章内容
+                var content_info = '<div class="aui-info">'+
+                    '<div class="aui-info-item">'+
+                      '<img src="http://www.maiyanx.com/uploads/avatar/'+data.user_info.avatar_file+'" class="aui-img-round" />'+
+                      '<div class="aui-img-introduce">'+
+                        '<span class="aui-margin-l-5">'+data.user_info.user_name+'</span>'+
+                        '<p class="">'+get_str_time(data.add_time)+'</p>'+
+                      '</div>'+
+                      // '<a class="'+flClass+'" onclick="fnFollow('+data.user_info.uid+',$(this))">'+followt+'</a>'+
+                    '</div>'+
+                '</div>'+
+                '<h3 class="tie-title">'+data.title+'</h3>'+
+                '<div class="tie-connav">'+data.message+
+              '</div>';
+
+              var str_count = '<div class="tie-browse">'+
+                  '<p>'+data.views+'人阅读&nbsp;·&nbsp;'+data.votes+'人点赞&nbsp;·&nbsp;'+data.comments_count+'人评论</p>'+
+                '</div>';
+              $('#content_info').append(content_info);
+              $('#content_info').after(str_count);
+
+
+                //文章评论与回复
+                if(data.comments){
+                  var html_coments = '';
+                  var likeZan = '点赞';
+                  var str_huifu = '';
+                    for (var i = 0; i < data.comments.length; i++) {
+                      if(data.comments[i]['vote_info'] !=  null){
+                        if(data.comments[i]['vote_info']['rating'] == 1){
+                          likeZan = '已赞';
+                        }else{
+                          likeZan = '点赞';
+                        }
+                      }
+                        if(data.comments[i]['at_user_info']){
+                              str_huifu = '&nbsp;&nbsp;回复&nbsp;&nbsp;'+data.comments[i]['at_user_info']['user_name'];
+                        }
+                             html_coments += '<li class="aui-list-item">'+
+                              '<div class="aui-info">'+
+                                  '<div class="aui-info-item">'+
+                                    '<img src="http://www.maiyanx.com/uploads/avatar/'+data.comments[i]['user_info']['avatar_file']+'" class="aui-img-round" />'+
+                                    '<div class="aui-img-introduce">'+
+                                      '<span class="aui-margin-l-5">'+data.comments[i]['user_info']['user_name']+str_huifu+'</span>'+
+                                    '</div>'+
+                                  '</div>'+
+                              '</div>'+
+                              '<div class="aui-info-title">'+data.comments[i]['message']+'</div>'+
+                              '<div class="aui-card-list-footer">'+
+                                '<div onclick="fnLike('+data.comments[i]['id']+',$(this))"><i class="aui-iconfont aui-icon-laud" data-id="'+data.comments[i]['id']+'"></i> <span>'+likeZan+'</span></div>'+
+                                '<div onclick="fnhuifuCheck('+data.comments[i]['uid']+')"><i class="aui-iconfont aui-icon-comment"  data-id="'+data.comments[i]['id']+'"></i> 回复</div>'+
+                              '</div>'+
+                            '</li>';
+                    }
+                  //  console.log(html_coments);
+                    $('#comments_list').append(html_coments);
+                }
+
+          } else {
+              api.alert(err);
+          }
+      });
+    }
+
+  function get_str_time(time){
+    var date = new Date((time* 1000)+(3600000*8));
+
+  	Y = date.getFullYear() + '-';
+  	M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+  	D = date.getDate() + ' ';
+  	h = date.getHours() + ':';
+  	m = date.getMinutes() + ':';
+  	s = date.getSeconds();
+      return Y+M+D+h+m+s;
+  }
+// 回复
+  function fnhuifuCheck(at_uid){
+    var uid = $api.getStorage('userId');
+      $api.setStorage('at_uid',at_uid);
+    console.log("111");
+    if(uid == null){
+      api.openWin({
+        name: 'login',
+        url: 'win_login.html',
+          pageParam: {
+              name: 'test'
+          }
+      });
+    }else{
+      $(".aui-padded-l-15").html('<input class="huifu" type="text" placeholder="评论..."/>');
+      $("input.huifu").focus();
+    }
+
+  }
+/* 点击评论-清空文本框 */
+  function clearUp(){
+    var pageParam = api.pageParam;
+    var article_id =  pageParam.article_id;
+    var uid = $api.getStorage('userId');
+    var message = $("input.huifu").val();
+    var at_uid =$api.getStorage('at_uid');
+
+    api.ajax({
+        url: 'http://www.maiyanx.com/wecenter_api/article_save_comment/',
+        method: 'post',
+        dataType : 'json',
+        data: {
+            values: {
+                at_uid: at_uid,
+                article_id: article_id,
+                message: message,
+                uid: uid
+            }
+        }
+    },function(ret, err){
+        if (ret.errno == 1) {
+          $("input.huifu").val('');
+            $(".aui-padded-l-15").html('<div class="search-input aui-font-size-14" onclick="edit()">评论...</div>');
+              location.reload();
+        } else {
+            alert( JSON.stringify( err ) );
+        }
+    });
+  }
+/* 点赞 */
+  function fnLike(id,this_) {
+    var uid = $api.getStorage('userId');
+    api.ajax({
+        url: 'http://www.maiyanx.com/wecenter_api/article_vote/',
+        method: 'post',
+        dataType : 'json',
+        data: {
+            values: {
+                item_id: id,
+                type: 'comment',
+                uid: uid
+            }
+        }
+    },function(ret, err){
+      if(this_.find("span").html() == '点赞'){
+        this_.find("span").html("已赞");
+      }else{
+        this_.find("span").html("点赞");
+      }
+    });
+  }
+
+  /* 关注专栏 */
+  function fnFollow(at_uid,this_) {
+    var uid = $api.getStorage('userId');
+    var at_uid = at_uid;
+    if(!uid){
+      api.toast({msg: "请先登录！", location: "middle"});
+    }else{
+      api.ajax({
+          url: 'http://www.maiyanx.com/wecenter_api/follow_people/',
+          method: 'post',
+          dataType: 'json',
+          data: {
+              values: {
+                  uid: uid,
+                  at_uid: at_uid
+              }
+          }
+      },function(ret, err){
+          if (ret.errno == 1) {
+            // alert( JSON.stringify( ret ) );
+            if(this_.html() == "+关注专栏"){
+              this_.html("取消关注");
+              this_.addClass("active");
+            }else{
+              this_.html("+关注专栏");
+              this_.removeClass("active");
+            }
+          } else {
+              alert( JSON.stringify( err ) );
+          }
+      });
+    }
+
+  }
+</script>
+</body>
+</html>

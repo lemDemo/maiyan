@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/common.css"/>
+    <style>
+        body, html {
+          background-color: #F5F5F5;
+        }
+        .login-header-btn{
+            display: inline-block;
+            padding: 30px;
+            background-size: 50px;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .close {
+            background-image: url("../image/index/left.png");
+        }
+
+        .login-user{
+            background-image: url("../image/main/zimg.png");
+            background-size: 60px;
+            position: absolute;
+            top: 7px;
+            left: 10px;
+        }
+
+        .login-header-btn.close{
+          background-size: 20px;
+          position: absolute;
+          top: 0;
+        }
+
+
+        .flip {
+            -webkit-transition-property: -webkit-transform, background-image;
+            -webkit-transition-duration: 1.5s, 0.1s;
+            -webkit-transition-delay: 0.1s;
+        }
+
+        .login-header {
+            height: 200px;
+            background: url(../image/main/zlBg.png) center;
+            background-size: cover;
+            position: relative;
+            display: -webkit-box;
+            -webkit-box-pack: center;
+            -webkit-box-align: center;
+            background-color: #fff;
+        }
+
+        div#title{
+          position: absolute;
+          top: 20px;
+          left: 40%;
+          color: #000;
+        }
+
+        .title {
+            /*text-align: center;*/
+            padding-top: 15px;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            position: relative;
+        }
+
+        .login {
+            color: #000;
+            font-size: 15px;
+            margin-left: 80px;
+        }
+
+        .score {
+            padding-top: 7px;
+            color: #000;
+            font-size: 13px;
+            margin-left: 80px;
+        }
+
+        .mine {
+            background-color: rgba(255,255,255,.7);
+            padding-top: 5px;
+            position: absolute;
+            width: 100%;
+            bottom: 0;
+
+        }
+
+        .mine li, .bottom li {
+            display: inline-block;
+            width: 32%;
+            text-align: center;
+            margin: 0 0 6px;
+            border-right: 1px solid #E3E3E3;
+        }
+        .mine>.comment{
+          border:none;
+        }
+
+        .bottom li {
+            width: 19%;
+            background-size: 30px;
+        }
+
+        .mine li span {
+            margin: 0 10px 0 10px;
+            color: #737377;
+        }
+
+        .mine li span i{
+          color: #000;
+          font-weight: bold;
+        }
+
+        .bottom li span {
+            margin: 15px 10px 0 10px;
+            color: #737377;
+            font-size: 12px;
+        }
+
+        .activity {
+            padding: 0 3%;
+            width: 94%;
+            float: left;
+            background-color: #fff;
+            margin-top: 10px;
+        }
+
+        .activity li {
+            padding: 10px 0;
+            background-size: 8px;
+            background-repeat: no-repeat;
+            background-position: right;
+            background-image: url("../image/setting_cell_arrow@2x.png");
+            border-bottom: 1px solid #F6F6F6;
+            width: 88%;
+            float: right;
+            position: relative;
+        }
+
+        nav#nav {
+          display: -webkit-box;
+          display: -webkit-flex;
+          display: flex;
+          -webkit-box-orient:horizontal;
+          -webkit-flex-flow:row;
+          flex-flow: row;
+          position: relative;
+          width: 100%;
+          height: 40px;
+          line-height: 40px;
+          border-bottom: 1px solid #E3E3E3;
+        }
+        nav#nav .menu{
+          -webkit-box-flex:1;
+          -webkit-flex:1;
+          flex: 1;
+          width: 100%;
+          height: 40px;
+          line-height: 40px;
+          font-size: 14px;
+          color: #646464;
+          text-align: center;
+        }
+        nav#nav .menu.selected{
+          font-size: 14px;
+          color: #00CEC2;
+          /*font-weight: bold;*/
+        }
+
+    </style>
+</head>
+<body>
+<header>
+    <div class="login-header">
+      <div class="login-header-btn close" tapmode="" onclick="api.closeWin()"></div>
+      <div class="header-title" id="title">站长专栏</div>
+        <!-- <div class="login-header-btn close" tapmode="" onclick="closeWin()"></div> -->
+        <div class="title">
+            <div class="login-header-btn login-user"  tapmode="" ></div>
+            <div class="login" id="user_name">麦言-小麦</div>
+            <div class="score" id="signature">专注的情怀,纯粹的发言</div>
+        </div>
+        <!-- 设置 -->
+        <!-- <div class="login-header-btn setting hidden-v" tapmode=""></div> -->
+    </div>
+    <ul class="mine">
+        <li class="read" tapmode="">
+            <span><i id="reputation">0</i><br>威望值</span>
+        </li>
+        <li class="star" tapmode="">
+            <span><i id="agree_count">0</i><br>赞</span>
+        </li>
+        <li class="comment" tapmode="">
+            <span><i id="fans_count">0</i><br>粉丝</span>
+        </li>
+    </ul>
+</header>
+<!-- 文章-提问-回复 -->
+<nav id="nav" class="activity">
+  <div class="menu selected" tapmode="selected" onclick="fnSetNavMenuIndex(0)" id='article_count'>文章0</div>
+  <div class="menu" tapmode="selected" onclick="fnSetNavMenuIndex(1)" id='question_count'>提问0</div>
+  <div class="menu" tapmode="selected" onclick="fnSetNavMenuIndex(2)" id='answer_count'>回复0</div>
+</nav>
+
+
+<script src="../script/api.js"></script>
+<script src="../script/zepto.min.js"></script>
+<script>
+
+    apiready = function () {
+        // checkUserId();
+
+        var pageParam = api.pageParam;
+        var user_id = pageParam.user_id;
+        get_user_info(user_id);
+        // $api.fixStatusBar($api.dom( ".header" ));
+        menus = $api.domAll(nav, '.menu');
+        var frames = [];
+         for (var i = 0; i < menus.length; i++) {
+        //  for (var i = menus.length-1; i > 0; i--) {
+           frames.push({
+               name: 'frm_topLine_' + i,
+               url: './frm_topLine' + i + '.html',
+               pageParam:{
+                   user_id:user_id,
+                   type:2
+               }
+           });
+         }
+        /* 文章-问题 */
+         var testN;
+         testN = frames[0];
+         frames[0] = frames[1];
+         frames[1] = testN;
+        api.openFrameGroup({
+            name:'topLineFrameGroup',
+            // url:'frm_topLine.html',
+            scrollEnabled: true,
+            rect:{
+                x:0,
+                y: $("header").height() + $("#nav").height(),
+                w:'auto',
+                h:'auto'
+            },
+            index: 0,
+            frames: frames
+        }, function(ret, err){
+          api.toast({
+              msg: '加载中...',
+              duration: 500,
+              location: 'middle'
+            });
+            fnSetNavMenuSelected(ret.index);
+        });
+    };
+
+
+
+
+
+var menus;
+function fnSetNavMenuSelected (index_){
+  for (var i = 0; i < menus.length; i++) {
+    if(index_ == i){
+      $api.addCls(menus[i], 'selected');
+    }else{
+      $api.removeCls(menus[i], 'selected');
+    }
+  }
+}
+/* 导航栏点击切换 */
+function  fnSetNavMenuIndex(index_){
+  fnSetNavMenuSelected(index_);
+  api.setFrameGroupIndex({
+      name: 'topLineFrameGroup',
+      index: index_,
+      scroll: true
+  });
+}
+
+
+
+  function get_user_info(uid){
+    api.ajax({
+        url: 'http://www.maiyanx.com/wecenter_api/get_user_info_by_uid/',
+        method: 'post',
+        dataType : 'json',
+        data: {
+            values: {
+                uid:uid
+              }
+        }
+    }, function(ret, err) {
+        if (ret) {
+            var data = ret;
+            // console.log(JSON.stringify(data));
+            $('#user_name').html(data.user_name);
+
+            if(data.signature){
+                $('#signature').html(data.signature);
+            }
+            if(data.reputation){
+                $('#reputation').html(data.reputation);
+            }
+            if(data.agree_count){
+                $('#agree_count').html(data.agree_count);
+            }
+            if(data.fans_count){
+                $('#fans_count').html(data.fans_count);
+            }
+            if(data.article_count){
+                $('#article_count').html('文章('+data.article_count+')');
+            }
+            if(data.question_count){
+                $('#question_count').html('提问('+data.question_count+')');
+            }
+            if(data.answer_count){
+                $('#answer_count').html('回复('+data.answer_count+')');
+            }
+
+
+          }
+      });
+  }
+
+</script>
+</body>
+</html>

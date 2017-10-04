@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/aui.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/common.css"/>
+    <style>
+    /*.aui-bar-tab{
+      top:0;
+    }*/
+        .aui-bar-tab-item > img{
+          width: 20px;
+          margin:auto;
+        }
+    </style>
+</head>
+<body tapmode="">
+
+<!-- 底部 -->
+<footer class="aui-bar aui-bar-tab" id="footer">
+    <div class="aui-bar-tab-item" tapmode="" onclick="fnGoHome()">
+        <img src="../image/index/find.png" alt="">
+        <div class="aui-bar-tab-label">发现</div>
+    </div>
+    <div class="aui-bar-tab-item" tapmode onclick="fnQuestion()">
+        <img src="../image/index/question.png" alt="">
+        <div class="aui-bar-tab-label">提问</div>
+    </div>
+    <!-- 个人中心 -->
+    <div class="aui-bar-tab-item aui-active">
+      <!-- 提示 -->
+        <!-- <div class="aui-dot"></div> -->
+        <img src="../image/index/main1.png" alt="">
+        <!-- <i class="aui-iconfont aui-icon-my"></i> -->
+        <div class="aui-bar-tab-label">我的</div>
+    </div>
+</footer>
+
+
+
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/zepto.min.js"></script>
+<script type="text/javascript" src="../script/iscroll.js"></script>
+<!-- 移动端滚动插件iScroll -->
+<script>
+
+var footer = $api.byId('footer');
+var footerH = $api.offset(footer).h;  //获取元素高
+    apiready = function () {
+      api.openFrame({
+          name: 'frm_user',
+          url: 'frm_user.html',
+          rect: {
+              x: 0,
+              y: 0,
+              w: 'auto',
+              h: 'auto',
+              marginBottom: footerH
+          },
+          pageParam: {
+              name: 'test'
+          },
+          bounces: true,
+          bgColor: 'rgba(0,0,0,0)',
+          vScrollBarEnabled: true,
+          hScrollBarEnabled: true
+      });
+    }
+
+    function fnGoHome(){
+      // api.closeWin();
+      api.openWin({
+          name: 'home',
+          url: '../index.html',
+          pageParam: {
+              name: 'test'
+          },
+          animation:{
+            type:"none"
+          }
+      });
+    }
+    function fnQuestion(){
+      var uid = $api.getStorage('userId');
+      if(uid){
+        api.openWin({
+            name: 'comQuiz',
+            url: 'win_comQuiz.html',
+            pageParam: {
+                name: 'test'
+            },
+            animation:{
+              type:"none"
+            }
+        });
+      }else{
+        api.toast({msg: "请先登录！", location: "middle"});
+      }
+    }
+</script>
+</body>
+</html>

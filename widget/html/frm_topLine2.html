@@ -1,0 +1,506 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+<link rel="stylesheet" type="text/css" href="../css/api.css"/>
+<link rel="stylesheet" type="text/css" href="../css/aui.css"/>
+<link rel="stylesheet" type="text/css" href="../css/common.css"/>
+<script type="text/javascript" src="../script/zepto.min.js"></script>
+<style>
+body {
+    min-width: 320px;
+}
+/*slide*/
+.swipe {
+    overflow: hidden;
+    /*visibility: hidden;*/
+    position: relative;
+}
+
+.swipe-wrap {
+    overflow: hidden;
+    position: relative;
+    height: 210px
+}
+
+.swipe-wrap > div {
+    float: left;
+    width: 100%;
+    position: relative;
+}
+
+.swipe-wrap > div {
+    overflow: hidden;
+    position: relative;
+}
+
+.swipe-wrap img {
+    width: 100%;
+    height: 210px;
+}
+
+#slide {
+    margin: 0 auto;
+    position: relative;
+}
+
+.lable {
+    background-image: -webkit-linear-gradient(top, rgba(59, 59, 59, .6), rgba(27, 27, 27, .6), rgba(50, 50, 50, .4), rgba(31, 31, 31, .4));
+    background-image: linear-gradient(top, rgba(59, 59, 59, .6), rgba(27, 27, 27, .6), rgba(50, 50, 50, .4), rgba(31, 31, 31, .4));
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    padding-left: 20px;
+    display: block;
+    color: #fff;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+#pointer {
+    position: absolute;
+    bottom: 0px;
+    overflow: hidden;
+    width: 92%;
+    text-align: right;
+}
+
+#pointer div {
+    display: inline-block;
+    width: 3px;
+    height: 3px;
+    border-radius: 3px;
+    margin-right: 4px;
+    background-color: #9B9B9B;
+    margin-bottom: 1.5px;
+}
+
+#pointer div.active {
+    width: 6px;
+    height: 6px;
+    background-color: #000000;
+    margin-bottom: 0;
+}
+
+/*list列表*/
+.content li {
+    padding: 10px;
+    border-bottom: 1px solid #D8D8D8;
+    position: relative;
+}
+
+.tab-content li {
+    margin: 10px 5px;
+    padding: 10px;
+    font-size: 14px;
+    border-bottom: 1px solid #DBDBDB;
+}
+
+.item, .text {
+    display: -webkit-box;
+}
+
+.img {
+    width: 80px;
+    height: 60px;
+}
+
+img {
+    width: 100%;
+    display: block;
+}
+
+.text {
+    -webkit-box-flex: 1;
+    -webkit-box-orient: vertical;
+    margin: 0 5px;
+
+    overflow: hidden;
+}
+
+.subTitle {
+    color: gray;
+    font-size: 12px;
+    line-height: 16px;
+    margin-left: 3px;
+    overflow: hidden;
+}
+
+.title {
+    line-height:18px;
+}
+
+.newsTips, .img-lable-newsTips {
+    padding:0 2px;
+    height: 13px;
+    position: absolute;
+    right: 10px;
+    bottom: 1.5px;
+    font-size: 12px;
+    line-height: 15px;
+    color: gray;
+    float: right;
+    margin-top: 2px;
+    border: 1px solid;
+    border-radius:20px;
+    text-align: center;
+}
+
+/*list列表*/
+/*imgs*/
+.img-lable, .after-img-lable, .after-slider-img-lable {
+    position: relative;
+    padding: 10px;
+}
+
+.after-img-lable, .after-slider-img-lable {
+    line-height: 17px;
+    font-size: 13px;
+}
+
+.after-img-lable {
+    height: 34px;
+    border-bottom: 1px solid #D8D8D8;
+}
+
+.after-slider-img-lable {
+    padding: 5px 10px 0 10px;
+}
+
+.img-lable-newsTips {
+    right: 12px;
+    bottom: 5px;
+}
+
+.fortag {
+    right: 50px;
+}
+
+.tag {
+    width: 30px;
+    border-radius: 0;
+}
+
+.blue-tag {
+    color: #002ADA;
+}
+
+.imgs {
+    display: -webkit-box;
+    width: 100%;
+    padding-bottom: 3px;
+    border-bottom: 1px solid #D8D8D8;
+}
+
+.imgs li {
+    width: 30%;
+    /* height: 55px;*/
+}
+
+.imgs li:not(:last-child) {
+    border-right: 1px solid #EDEDEB;
+    margin-right: 1.5%;
+}
+
+.imgs li:last-child {
+    margin-right: 10px;
+}
+
+.imgs li:first-child {
+    margin-left: 10px;
+}
+
+/*imgs*/
+/*毛玻璃效果*/
+.filter {
+    -webkit-filter: blur(10px); /* Chrome, Opera */
+    -moz-filter: blur(10px);
+    -ms-filter: blur(10px);
+    filter: blur(10px);
+}
+
+/*毛玻璃效果*/
+.cover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
+}
+
+.hidden {
+    display: none !important;
+
+}
+.aui-info-item-time{
+  font-size: 10px;
+  text-align: right;
+}
+.aui-list .aui-list-item i.aui-iconfont{
+  font-size: 12px;
+}
+
+.aui-list-item-text.item-text-bottom{
+  display: block;
+  /*float: left;*/
+}
+.aui-list-item-text.item-text-bottom>img{
+  float: left;
+  margin-right: 7px;
+  border-radius: 50%;
+}
+
+</style>
+</head>
+
+<body tapmode="">
+<!-- <div id='slide' class='swipe'>
+    <div class='swipe-wrap' id="banner-content">
+    </div>
+</div> -->
+<ul class="content aui-list aui-media-list" id="listView">
+  <!-- 问题 -->
+<!--
+        <li class="aui-list-item">
+          <div class="aui-info aui-margin-t-5" style="padding:0">
+              <div class="aui-info-item">
+                  <img src="../image/content/img7.png" style="width:30px" class="aui-img-round" />
+                  <span class="aui-margin-l-5"><span>&nbsp;憨猪猫</span>发起了问题&nbsp;<i>Amazon</i></span>
+                </div>
+              <div class="aui-info-item aui-info-item-time"><i class="aui-iconfont aui-icon-date"></i>&nbsp;2015-07-14 10:31</div>
+          </div>
+          <div class="aui-media-list-item-inner">
+              <div class="aui-list-item-inner">
+
+                  <div class="aui-list-item-text">
+                      <div class="aui-list-item-title">查询客户收到货了，但是没确认收货，速卖通也没检测妥投，怎么办？</div>
+                      <!-- <div class="aui-list-item-right">08:00</div>
+                  </div>
+                  <div class="aui-list-item-text">
+
+                  </div>
+              </div>
+              <div class="aui-list-item-media">
+                  <p><span>456</span><br>阅读</p>
+              </div>
+          </div>
+          <div class="aui-list-item-text item-text-bottom">
+              <img src="../image/content/img2.png" alt="">
+              <img src="../image/content/img3.png" alt="">
+              <img src="../image/content/img4.png" alt="">
+              <img src="../image/content/img5.png" alt="">
+              <img src="../image/content/img6.png" alt="">
+              <span>等20人回复&nbsp;•&nbsp;已关注</span>
+          </div>
+        </li>
+        <li class="aui-list-item">
+          <div class="aui-info aui-margin-t-5" style="padding:0">
+              <div class="aui-info-item">
+                  <img src="../image/content/img7.png" style="width:30px" class="aui-img-round" />
+                  <span class="aui-margin-l-5"><span>&nbsp;憨猪猫</span>发起了问题&nbsp;<i>Amazon</i></span>
+                </div>
+              <div class="aui-info-item aui-info-item-time"><i class="aui-iconfont aui-icon-date"></i>&nbsp;2015-07-14 10:31</div>
+          </div>
+          <div class="aui-media-list-item-inner">
+              <div class="aui-list-item-inner">
+
+                  <div class="aui-list-item-text">
+                      <div class="aui-list-item-title">查询客户收到货了，但是没确认收货，速卖通也没检测妥投，怎么办？</div>
+                      <!-- <div class="aui-list-item-right">08:00</div>
+                  </div>
+                  <div class="aui-list-item-text">
+
+                  </div>
+              </div>
+              <div class="aui-list-item-media">
+                  <p><span>456</span><br>阅读</p>
+              </div>
+          </div>
+          <div class="aui-list-item-text item-text-bottom">
+              <img src="../image/content/img2.png" alt="">
+              <img src="../image/content/img3.png" alt="">
+              <img src="../image/content/img4.png" alt="">
+              <img src="../image/content/img5.png" alt="">
+              <img src="../image/content/img6.png" alt="">
+              <span>等20人回复&nbsp;•&nbsp;已关注</span>
+          </div>
+        </li>
+        <li class="aui-list-item">
+          <div class="aui-info aui-margin-t-5" style="padding:0">
+              <div class="aui-info-item">
+                  <img src="../image/content/img7.png" style="width:30px" class="aui-img-round" />
+                  <span class="aui-margin-l-5"><span>&nbsp;憨猪猫</span>发起了问题&nbsp;<i>Amazon</i></span>
+                </div>
+              <div class="aui-info-item aui-info-item-time"><i class="aui-iconfont aui-icon-date"></i>&nbsp;2015-07-14 10:31</div>
+          </div>
+          <div class="aui-media-list-item-inner">
+              <div class="aui-list-item-inner">
+
+                  <div class="aui-list-item-text">
+                      <div class="aui-list-item-title">查询客户收到货了，但是没确认收货，速卖通也没检测妥投，怎么办？</div>
+                      <!-- <div class="aui-list-item-right">08:00</div>
+                  </div>
+                  <div class="aui-list-item-text">
+
+                  </div>
+              </div>
+              <div class="aui-list-item-media">
+                  <p><span>456</span><br>阅读</p>
+              </div>
+          </div>
+          <div class="aui-list-item-text item-text-bottom">
+              <img src="../image/content/img2.png" alt="">
+              <img src="../image/content/img3.png" alt="">
+              <img src="../image/content/img4.png" alt="">
+              <img src="../image/content/img5.png" alt="">
+              <img src="../image/content/img6.png" alt="">
+              <span>等20人回复&nbsp;•&nbsp;已关注</span>
+          </div>
+        </li> -->
+        <!-- end-问题 -->
+</ul>
+<script>
+// 问题详情
+/* 文章详情 */
+function fnQuestionDetails(question_id){
+  api.openWin({
+      name: 'QuestionWin',
+      url: './win_queDetail.html',
+      scrollToTop:true,
+      progress:{
+         type:"default",
+         title:"加载中",
+         text:"小麦正在卖力加载",
+      },
+      pageParam: {
+          question_id: question_id
+      }
+  });
+}
+    var page= 1,limit=10;
+
+
+    apiready = function () {
+        var pageParam = api.pageParam;
+        var user_id = pageParam.user_id;
+        setRefreshHeader();
+        get_question_list(user_id,1);
+        api.addEventListener({name: 'scrolltobottom'}, function (ret, err) {  //监听事件  实现上拉加载
+              page++;
+              get_question_list(user_id,page);
+            api.parseTapmode(); //解析元素 tapmode 属性，优化点击事件处理
+        });
+    };
+
+      function setRefreshHeader() {
+          api.setRefreshHeaderInfo({
+              visible: true,
+              bgColor: '#ccc',
+              textColor: '#fff',
+              textDown: '下拉刷新...',
+              textUp: '松开刷新...',
+              showTime: true
+          }, function (ret, err) {
+              location.reload();
+              api.refreshHeaderLoadDone();   //通知顶部下拉刷新数据加载完毕，组件会恢复到默认状态
+          });
+      }
+
+
+      function get_question_list(uid,page){
+        page = page || 1 ;
+        api.ajax({
+            url: 'http://www.maiyanx.com/wecenter_api/get_answer_list_by_uid/',
+            method: 'post',
+            dataType : 'json',
+            data: {
+                values: {
+                    per_page : 10,
+                    page:page,
+                    uid : uid
+                }
+            }
+        }, function(ret, err) {
+            if (ret) {
+                var data = ret;
+
+                for (var i = 0; i < data.length; i++) {
+                  var str_answer_users = '';
+                  var  str_type = '发布了问题';
+                  var  str_time =  formatDateTime(data[i].add_time);
+
+                   if(data[i].answer_users){
+                       for (var key in data[i].answer_users) {
+                         // console.log(JSON.stringify(data[i].answer_users[key]['avatar_file']));
+                             str_answer_users += '<img src="http://www.maiyanx.com/uploads/avatar/'+data[i].answer_users[key]['avatar_file']+'" alt="">';
+                       }
+                   }
+                //  console.log(str_answer_users+'++++++++++++++++++++'+i);
+                      var html = '<li class="aui-list-item">'+
+                          '<div class="aui-info aui-margin-t-5" style="padding:0">'+
+                              '<div class="aui-info-item">'+
+                                '<img src="http://www.maiyanx.com/uploads/avatar/'+data[i].user_info.avatar_file+'" style="width:30px" class="aui-img-round" />'+
+                                  '<span class="aui-margin-l-5"><span>&nbsp;'+data[i].user_info.user_name+'</span>'+str_type+'&nbsp;<i>'+data[i].category_info.title+'</i></span>'+
+                                '</div>'+
+                              '<div class="aui-info-item aui-info-item-time"><i class="aui-iconfont aui-icon-date"></i>&nbsp;'+str_time+'</div>'+
+                          '</div>'+
+                          '<div class="aui-media-list-item-inner" onclick="fnQuestionDetails('+data[i].question_id+')">'+
+                              '<div class="aui-list-item-inner">'+
+                                  '<div class="aui-list-item-text">'+
+                                      '<div class="aui-list-item-title">'+data[i].question_content+'</div>'+
+                                  '</div>'+
+                              '</div>'+
+                              '<div class="aui-list-item-media">'+
+                                  '<p><span>'+data[i].view_count+'</span><br>阅读</p>'+
+                              '</div>'+
+                          '</div>'+
+                          '<div class="aui-list-item-text item-text-bottom">'+str_answer_users+
+                              '<span>'+data[i].answer_count+'人回复&nbsp;•&nbsp;关注问题</span>'+
+                          '</div>'+
+                        '</li>';
+                      $('#listView').append(html);
+                  }
+
+            } else {
+                api.alert(err);
+            }
+        });
+      }
+
+
+      //时间戳 转 YY-mm-dd HH:ii:ss
+      function formatDateTime(timeStamp) {
+        // var date = new Date(timeStamp* 1000);
+        // Y = date.getFullYear() + '-';
+        // M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+        // D = date.getDate() + ' ';
+        // h = date.getHours() + ':';
+        // m = date.getMinutes() + ':';
+        // s = date.getSeconds();
+        //   return Y+M+D+h+m+s;
+            nowtime = (new Date).getTime();
+            /*当前时间戳*/
+            secondNum = parseInt((nowtime - timeStamp * 1000) / 1000);
+            //计算时间戳差值
+
+            if (secondNum >= 0 && secondNum < 60) {
+                    return secondNum + '秒前';
+            } else if (secondNum >= 60 && secondNum < 3600) {
+                    var nTime = parseInt(secondNum / 60);
+                    return nTime + '分钟前';
+            } else if (secondNum >= 3600 && secondNum < 3600 * 24) {
+                    var nTime = parseInt(secondNum / 3600);
+                    return nTime + '小时前';
+            } else {
+                    var nTime = parseInt(secondNum / 86400);
+                    return nTime + '天前';
+            }
+      };
+</script>
+</body>
+</html>

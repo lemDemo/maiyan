@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="css/aui.css"/>
+    <link rel="stylesheet" type="text/css" href="css/common.css"/>
+    <style>
+
+      .nav-btn{
+        position: fixed;
+        bottom: 15px;
+        width: 100%;
+        text-align: center;
+      }
+      .nav-btn>span{
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        /*background-color: rgba(0,0,0,0);*/
+        border:1px solid #fff;
+        margin-right: 10px;
+        border-radius: 50%;
+      }
+      .nav-btn>span.selected{
+        background-color: #fff;
+      }
+    </style>
+</head>
+<body>
+
+<!-- 引导页 -->
+<div class="nav-btn" id="nav">
+  <span class="span selected" tapmode="selected" onclick="fnSetNavMenuSelected(0)"></span>
+  <span class="span" tapmode="selected" onclick="fnSetNavMenuSelected(1)"></span>
+  <span class="span" tapmode="selected" onclick="fnSetNavMenuSelected(2)"></span>
+</div>
+
+
+
+<script type="text/javascript" src="script/api.js"></script>
+<script type="text/javascript" src="script/zepto.min.js"></script>
+<script type="text/javascript" src="script/iscroll.js"></script>
+<!-- 移动端滚动插件iScroll -->
+<script>
+
+    apiready = function () {
+      menus = $(".span");
+      var frames = [];
+       for (var i = 1; i <= menus.length; i++) {
+         frames.push({
+             name: 'frm_loadPage' + i,
+             url: './html/frm_loadPage' + i + '.html'
+         });
+       }
+      api.openFrameGroup({
+          name:'topLineFrameGroup',
+          scrollEnabled: true,
+          rect:{
+              x:0,
+              y: 0,
+              w:'auto',
+              h:'auto'
+          },
+          index: 0,
+          frames: frames
+      }, function(ret, err){
+          fnSetNavMenuSelected(ret.index);
+      });
+  }
+
+  var menus;
+  function fnSetNavMenuSelected (index_){
+    menus = $(".span");
+      console.log(menus);
+    for (var i = 0; i < menus.length; i++) {
+      if(index_ == i){
+        $api.addCls(menus[i], 'selected');
+      }else{
+        $api.removeCls(menus[i], 'selected');
+      }
+    }
+  }
+  /* 导航栏点击切换 */
+  function  fnSetNavMenuIndex(index_){
+    fnSetNavMenuSelected(index_);
+    api.setFrameGroupIndex({
+        name: 'topLineFrameGroup',
+        index: index_,
+        scroll: true
+    });
+  }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,760 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/aui.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/common.css"/>
+   <script type="text/javascript" src="../script/zepto.min.js"></script>
+    <style>
+        body {
+            min-width: 320px;
+        }
+
+        .swipe {
+            overflow: hidden;
+            position: relative;
+        }
+
+        .swipe-wrap {
+            overflow: hidden;
+            position: relative;
+            height: 210px;
+        }
+
+        .swipe-wrap > div {
+            float: left;
+            width: 100%;
+            position: relative;
+        }
+
+        .swipe-wrap > div {
+            overflow: hidden;
+            position: relative;
+        }
+
+        .swipe-wrap img {
+            width: 100%;
+            height: 210px;
+        }
+
+        #slide {
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .lable {
+            background-image: -webkit-linear-gradient(top, rgba(59, 59, 59, .6), rgba(27, 27, 27, .6), rgba(50, 50, 50, .4), rgba(31, 31, 31, .4));
+            background-image: linear-gradient(top, rgba(59, 59, 59, .6), rgba(27, 27, 27, .6), rgba(50, 50, 50, .4), rgba(31, 31, 31, .4));
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 30px;
+            line-height: 30px;
+            padding-left: 20px;
+            display: block;
+            color: #fff;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        #pointer {
+            position: absolute;
+            bottom: 0px;
+            overflow: hidden;
+            width: 92%;
+            text-align: right;
+        }
+
+        #pointer div {
+            display: inline-block;
+            width: 3px;
+            height: 3px;
+            border-radius: 3px;
+            margin-right: 4px;
+            background-color: #9B9B9B;
+            margin-bottom: 1.5px;
+        }
+
+        #pointer div.active {
+            width: 6px;
+            height: 6px;
+            background-color: #000000;
+            margin-bottom: 0;
+        }
+
+        /*list列表*/
+        .content li {
+            padding: 10px;
+            border-bottom: 1px solid #D8D8D8;
+            position: relative;
+        }
+
+        .tab-content li {
+            margin: 10px 5px;
+            padding: 10px;
+            font-size: 14px;
+            border-bottom: 1px solid #DBDBDB;
+        }
+
+        .item, .text {
+            display: -webkit-box;
+        }
+
+        .img {
+            width: 80px;
+            height: 60px;
+        }
+
+        img {
+            width: 100%;
+            display: block;
+        }
+
+        .text {
+            -webkit-box-flex: 1;
+            -webkit-box-orient: vertical;
+            margin: 0 5px;
+
+            overflow: hidden;
+        }
+
+        .subTitle {
+            color: gray;
+            font-size: 12px;
+            line-height: 16px;
+            margin-left: 3px;
+            overflow: hidden;
+        }
+
+        .title {
+            line-height: 18px;
+        }
+
+        .newsTips, .img-lable-newsTips {
+            width: 70px;
+            height: 15px;
+            position: absolute;
+            right: 0;
+            bottom: 1px;
+            font-size: 12px;
+            line-height: 17px;
+            color: gray;
+            float: right;
+            margin-top: 2px;
+            border: 1px solid;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        /*list列表*/
+        /*imgs*/
+        .img-lable, .after-img-lable, .after-slider-img-lable {
+            position: relative;
+            padding: 10px;
+        }
+
+        .after-img-lable, .after-slider-img-lable {
+            line-height: 17px;
+            font-size: 13px;
+        }
+
+        .after-img-lable {
+            height: 34px;
+        }
+
+        .after-slider-img-lable {
+            padding: 5px 10px 0 10px;
+        }
+
+        .img-lable-newsTips {
+            right: 12px;
+            bottom: 9px;
+        }
+
+        .fortag {
+            right: 50px;
+        }
+
+        .tag {
+            width: 30px;
+            border-radius: 0;
+        }
+
+        .blue-tag {
+            color: #002ADA;
+        }
+
+        .imgs {
+            display: -webkit-box;
+            width: 100%;
+            padding-bottom: 3px;
+            border-bottom: 1px solid #D8D8D8;
+        }
+
+        .imgs li {
+            width: 30%;
+            /*height: 55px;*/
+        }
+
+        .imgs li:not(:last-child) {
+            border-right: 1px solid #EDEDEB;
+            margin-right: 1.5%;
+        }
+
+        .imgs li:last-child {
+            margin-right: 10px;
+        }
+
+        .imgs li:first-child {
+            margin-left: 10px;
+        }
+
+        /*毛玻璃效果*/
+        .cover {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 999;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+        /* 热门问题 */
+        .aui-list .aui-list-header{
+          background-color: #fff;
+        }
+        .aui-list-item-text.item-text-bottom{
+          display: block;
+          /*float: left;*/
+        }
+        .aui-list-item-text.item-text-bottom>img{
+          float: left;
+          margin-right: 7px;
+          border-radius: 50%;
+        }
+    </style>
+</head>
+
+<body tapmode="">
+<div id='slide' class='swipe'>
+    <div class='swipe-wrap' id="banner-content">
+
+        <div onclick="" tapmode="">
+            <img src="../image/index/banner.png"/>
+        </div>
+        <div onclick="" tapmode="">
+            <img src="../image/index/banner.png"/>
+
+        </div>
+        <div onclick="" tapmode="">
+            <img src="../image/index/banner.png"/>
+        </div>
+        <div onclick="" tapmode="">
+            <img src="../image/index/banner.png"/>
+        </div>
+
+    </div>
+</div>
+<!-- 分类导航 -->
+<section class="aui-grid" id="auiGrid">
+    <div class="aui-row category_info">
+        <!-- <div class="aui-col-xs-3" onclick="toTopline()">
+            <img src="../image/index/btn0201.png" alt="">
+            <div class="aui-grid-label" tapmode="selected">Amazon</div>
+        </div>
+        <div class="aui-col-xs-3">
+            <img src="../image/index/btn0301.png" alt="">
+            <div class="aui-grid-label">Wish</div>
+        </div>
+        <div class="aui-col-xs-3">
+          <img src="../image/index/btn0401.png" alt="">
+            <div class="aui-grid-label">Aliexpress</div>
+        </div>
+        <div class="aui-col-xs-3">
+          <img src="../image/index/btn0501.png" alt="">
+            <div class="aui-grid-label">Ebay</div>
+        </div>
+        <div class="aui-col-xs-3">
+          <img src="../image/index/btn0601.png" alt="">
+            <div class="aui-grid-label">DHgate</div>
+        </div>
+        <div class="aui-col-xs-3">
+          <img src="../image/index/btn0701.png" alt="">
+            <div class="aui-grid-label">Lazada</div>
+        </div>
+        <div class="aui-col-xs-3">
+          <img src="../image/index/btn0801.png" alt="">
+            <div class="aui-grid-label">shopee</div>
+        </div>
+        <div class="aui-col-xs-3">
+          <img src="../image/index/btn0101.png" alt="">
+            <div class="aui-grid-label">All</div>
+        </div> -->
+    </div>
+</section>
+<ul class="content aui-list aui-media-list" id="listView">
+  <!-- 热门问题 -->
+        <li class="aui-list-item aui-list-item-arrow">
+            <div class="aui-media-list-item-inner">
+              <i></i>
+                <div class="aui-list-item-inner" style="padding-left:5px;">
+                    <div class="aui-list-item-text">
+                        <div class="aui-list-item-title">热门问题</div>
+                        <!-- <div class="aui-list-item-right">查看更多</div> -->
+                    </div>
+                </div>
+            </div>
+        </li>
+
+        <!-- end-热门问题 -->
+</ul>
+<section id="imgGroup">
+  <!-- 推荐专题 -->
+  <ul class="aui-list aui-media-list">
+    <li class="aui-list-item">
+        <div class="aui-media-list-item-inner">
+          <i></i>
+            <div class="aui-list-item-inner" style="padding-left:5px;">
+                <div class="aui-list-item-text">
+                    <div class="aui-list-item-title">推荐专栏</div>
+                    <!-- <div class="aui-list-item-right">查看更多</div> -->
+                </div>
+            </div>
+        </div>
+    </li>
+      <li>
+          <div class="aui-list-item-inner">
+              <div class="aui-row aui-row-padded">
+                      <!-- 动态生成列表-->
+              </div>
+          </div>
+      </li>
+  </ul>
+  <!-- end-推荐专题 -->
+</section>
+<section id="topic">
+
+  <!-- 精选文章 -->
+    <ul class="aui-list aui-media-list"  id='article_list'>
+        <li class="aui-list-item aui-list-item-arrow">
+            <div class="aui-media-list-item-inner">
+                <i></i>
+                <div class="aui-list-item-inner" style="padding-left:5px;">
+                    <div class="aui-list-item-text">
+                        <div class="aui-list-item-title">精选文章</div>
+                        <!-- <div class="aui-list-item-right">查看更多</div> -->
+                    </div>
+                </div>
+            </div>
+        </li>
+        <!-- <li class="aui-list-item">
+          <div class="aui-info aui-margin-t-5" style="padding:0">
+              <div class="aui-info-item">
+                  <img src="../image/content/img2.png" style="width:30px" class="aui-img-round" />
+                  <span class="aui-margin-l-5"><span>&nbsp;自由女神</span>发表了文章&nbsp;<i>Amazon</i></span>
+                </div>
+          </div>
+          <div class="aui-media-list-item-inner">
+              <div class="aui-list-item-inner">
+
+                  <div class="aui-list-item-text">
+                      <div class="aui-list-item-title">一个新Amazon店铺如何做起来</div>
+                  </div>
+                  <div class="aui-list-item-text">
+
+                  <br>
+                  <br>
+                  </div>
+                  <div class="aui-list-item-text">
+                      <span>123人阅读&nbsp;•&nbsp;20人回复&nbsp;•&nbsp;去往专栏</span>
+                  </div>
+              </div>
+              <div class="aui-list-item-media item-media-figure">
+                  <img src="../image/content/img10.png" alt="">
+              </div>
+          </div>
+
+        </li>
+        <li class="aui-list-item">
+          <div class="aui-info aui-margin-t-5" style="padding:0">
+              <div class="aui-info-item">
+                  <img src="../image/content/img5.png" style="width:30px" class="aui-img-round" />
+                  <span class="aui-margin-l-5"><span>&nbsp;守时大叔</span>发表了文章&nbsp;<i>Wish</i></span>
+                </div>
+              <!-- <div class="aui-info-item">2015-07-14 10:31</div>
+          </div>
+          <div class="aui-media-list-item-inner">
+              <div class="aui-list-item-inner">
+                  <div class="aui-list-item-text">
+                      <div class="aui-list-item-title">get到这七个点，带你玩转wish</div>
+                      <!-- <div class="aui-list-item-right">08:00</div>
+                  </div>
+                  <div class="aui-list-item-text">
+
+                    <br>
+                    <br>
+                  </div>
+                  <div class="aui-list-item-text">
+                      <span>123人阅读&nbsp;•&nbsp;39人回复&nbsp;•&nbsp;专注专栏</span>
+                  </div>
+              </div>
+              <div class="aui-list-item-media item-media-figure">
+                  <img src="../image/content/img11.png" alt="">
+              </div>
+          </div>
+
+        </li> -->
+    </ul>
+    <!-- end-精选文章 -->
+</section>
+<div class="cover hidden" onclick="clearFilter()" tapmode="">
+
+</div>
+<script src="../script/api.js"></script>
+<script>
+  /* 文本超出高度隐藏 */
+  $(".figcaption").each(function (i) {
+    var divH = $(this).height();
+    var $p = $("span", $(this));
+    // $p.outline
+    while ($p.height() > divH) {
+      $p.text($p.text().replace(/(\s)*([a-zA-Z0-9]+|\W)(\.\.\.)?$/, "..."));
+    };
+  });
+
+
+    apiready = function () {
+        setRefreshHeader(); //下拉刷新
+
+        get_hot_question(); //获取问题数据
+        get_hot_article();  //获取文章数据
+        get_zhuanlan_list(); //获取专栏数据
+        get_nav_menu_list(); //获取目录数据
+    }
+
+    /* 导航分类详情页 */
+    function toTopline(category_id,category_title) {
+      category_title = category_title || '';
+        api.openWin({
+            name: 'topline',
+            url: 'win_reply.html',
+            pageParam: {
+                category_id:category_id,
+                category_title:category_title
+            }
+        })
+    }
+
+    //下拉刷新
+    function setRefreshHeader() {
+        api.setRefreshHeaderInfo({
+            visible: true,
+            bgColor: '#ccc',
+            textColor: '#fff',
+            textDown: '下拉刷新...',
+            textUp: '松开刷新...',
+            showTime: true
+        }, function (ret, err) {
+           location.reload();
+            api.refreshHeaderLoadDone();
+        });
+    }
+
+
+
+    function get_hot_question(category_id){
+      //热门问题列表数据 ------------------------------------------------------
+      api.ajax({
+          url: 'http://www.maiyanx.com/wecenter_api/get_hot_question/',
+          method: 'post',
+          dataType : 'json',
+          data: {
+              values: {
+                  limit : 5,
+                  view  : 1000,
+                   category_id : category_id,
+                  //answer : 0
+              }
+          }
+      }, function(ret, err) {
+          if (ret) {
+              var data = ret;
+
+              for (var i = 0; i < data.length; i++) {
+                // 回复问题
+                var str_answer_users = '';
+
+                if(data[i].answer_users){
+                    for (var key in data[i].answer_users) {
+                      // console.log(JSON.stringify(data[i].answer_users[key]['avatar_file']));
+                          str_answer_users += '<img src="http://www.maiyanx.com/uploads/avatar/'+data[i].answer_users[key]['avatar_file']+'" alt="">';
+                    }
+                }
+                var category_title = data[i].category_info.title ;
+                category_title = category_title || '';
+
+                    var html = '<li class="aui-list-item">'+
+                      '<div class="aui-info aui-margin-t-5" style="padding:0">'+
+                        '<div class="aui-info-item">'+
+                              '<img src="http://www.maiyanx.com/uploads/avatar/'+data[i].user_info.avatar_file+'" style="width:30px" class="aui-img-round" />'+
+                              '<span class="aui-margin-l-5"><span>&nbsp;'+data[i].user_info.user_name+'</span>发布的问题&nbsp;<i>'+category_title+'</i></span>'+
+                            '</div>'+
+                      '</div>'+
+                      '<div class="aui-media-list-item-inner"  onclick="fnQuestionDetails('+data[i].question_id+')">'+
+                          '<div class="aui-list-item-inner">'+
+                              '<div class="aui-list-item-text">'+
+                                  '<div class="aui-list-item-title">'+data[i].question_content+'</div>'+
+                              '</div>'+
+                          '</div>'+
+                          '<div class="aui-list-item-media">'+
+                              '<p><span>'+data[i].view_count+'</span><br>阅读</p>'+
+                          '</div>'+
+                      '</div>'+
+                      '<div class="aui-list-item-text item-text-bottom">'+str_answer_users+
+                          // '<img src="../image/content/img2.png" alt="">'+
+                          // '<img src="../image/content/img3.png" alt="">'+
+                          // '<img src="../image/content/img4.png" alt="">'+
+                          // '<img src="../image/content/img5.png" alt="">'+
+                          // '<img src="../image/content/img6.png" alt="">'+
+                          '<span>'+data[i].answer_count+'人回复</span>'+
+                      '</div>'+
+                    '</li>';
+                    $('#listView').append(html);
+                }
+
+          } else {
+              api.alert(err);
+          }
+      });
+      //END热门问题列表数据---------------------------------------------------
+    }
+
+
+    function get_hot_article(category_id){
+      //热门文章列表数据 ------------------------------------------------------
+      api.ajax({
+          url: 'http://www.maiyanx.com/wecenter_api/get_hot_article/',
+          method: 'post',
+          dataType : 'json',
+          data: {
+              values: {
+                  limit : 5,
+                  view  : 1000,
+                  category_id : category_id
+              }
+          }
+      }, function(ret, err) {
+          if (ret) {
+              var data = ret;
+                 //console.log(JSON.stringify(data));
+              for (var i = 0; i < data.length; i++) {
+                var img;
+                if(data[i].has_attach > 0 ){
+                    if(data[i].attachs[0]['is_image']){
+                      img = '<img src="'+data[i].attachs[0].attachment+'" alt="">';
+                    }
+                }
+
+                    var html = '<li class="aui-list-item">'+
+                        '<div class="aui-info aui-margin-t-5" style="padding:0">'+
+                            '<div class="aui-info-item">'+
+                                '<img src="http://www.maiyanx.com/uploads/avatar/'+data[i].user_info.avatar_file+'" style="width:30px" class="aui-img-round" />'+
+                                '<span class="aui-margin-l-5"><span>&nbsp;'+data[i].user_info.user_name+'</span>发表的文章&nbsp;<i>'+data[i].category_info.title+'</i></span>'+
+                              '</div>'+
+                      '</div>'+
+                        '<div class="aui-media-list-item-inner"  onclick="fnArticleDetails('+data[i].id+')">'+
+                            '<div class="aui-list-item-inner">'+
+                                '<div class="aui-list-item-text">'+
+                                    '<div class="aui-list-item-title">'+data[i].title+'</div>'+
+                                '</div>'+
+                                '<div class="aui-list-item-text">'+
+                                '<br>'+
+                                '<br>'+
+                                '</div>'+
+                                '<div class="aui-list-item-text">'+
+                                    '<span  onclick="fnGoColumn('+data[i].user_info.uid+')">'+data[i].views+'人阅读&nbsp;•&nbsp;'+data[i].comments+'人回复&nbsp;•&nbsp;去往专栏</span>'+
+                                '</div>'+
+                            '</div>'+
+                            '<div class="aui-list-item-media item-media-figure">'+
+                                    img+
+                            '</div>'+
+                        '</div>'+
+                      '</li>';
+                    $('#article_list').append(html);
+                }
+
+          } else {
+              api.alert(err);
+          }
+      });
+      //END热门文章列表数据---------------------------------------------------
+    }
+
+
+    function get_nav_menu_list(){
+      //分类列表数据
+      api.ajax({
+          url: 'http://www.maiyanx.com/wecenter_api/get_nav_menu_list/',
+          method: 'post',
+          dataType : 'json',
+          data: {
+              values: {
+
+              }
+          }
+      }, function(ret, err) {
+          if (ret) {
+              var data = ret;
+             //  console.log(JSON.stringify(data.category_ids.length));
+             //  console.log(JSON.stringify(data));
+              for (var i = 0; i < data.category_ids.length; i++) {
+                    if(data[i].lx == 1){
+                      var str_id = data[i].type_id;
+                      var str_title = data[i].title;
+                      var html = '<div class="aui-col-xs-3" data-id="'+str_id+'" onclick="toTopline('+str_id+',\''+str_title+'\')">'+
+                          '<img src="http://www.maiyanx.com/uploads/nav_menu/'+data[i].icon+'" alt="">'+
+                          '<div class="aui-grid-label">'+data[i].title+'</div>'+
+                      '</div>';
+                      $('.category_info').append(html);
+                    }
+                }
+
+          } else {
+              api.alert(err);
+          }
+      });
+      //END分类列表------------------------------------------------------------
+    }
+
+
+    function get_zhuanlan_list(){
+      var uid = $api.getStorage('userId');
+      var followt = '关注';
+      var flClass = "";
+        //热门专栏列表数据
+        api.ajax({
+            url: 'http://www.maiyanx.com/wecenter_api/get_zhuanlan_list/',
+            method: 'post',
+            dataType : 'json',
+            data: {
+                values: {
+                    num : 10,
+                    uid: uid
+                }
+            }
+        }, function(ret, err) {
+            if (ret) {
+                var data = ret;
+               //  console.log(JSON.stringify(data[0]));
+                for (var i = 0; i < data.length; i++) {
+                  if(data[i].user_follow_check){
+                    followt = '已关注';
+                    flClass = "active";
+                  }else{
+                    followt = '关注';
+                    flClass = "";
+                  }
+                      var html = '<div class="aui-col-xs-4">'+
+                            '<img src="http://www.maiyanx.com/uploads/avatar/'+data[i].user_tx+'" onclick="fnGoColumn('+data[i].uid+')"/>'+
+                            '<h2>'+data[i].user_name+'</h2>'+
+                            '<p class="figcaption">'+data[i].signature+'</p>'+
+                            // '<a href="javascript:;" class="'+flClass+'" onclick="fnFollow('+data[i].uid+',$(this))">'+followt+'</a>'+
+                        '</div>';
+                      $('.aui-row-padded').append(html);
+                  }
+
+            } else {
+                api.alert(err);
+            }
+        });
+        //END热门专栏-------------------------------------------------------------
+    }
+
+
+    //问题详情
+    function fnQuestionDetails(id){
+      api.openWin({
+          name: 'QuestionWin',
+          url: './win_queDetail.html',
+          scrollToTop:true,
+          progress:{
+             type:"default",
+             title:"加载中",
+             text:"小麦正在卖力加载",
+          },
+          pageParam: {
+              question_id: id,
+          }
+      });
+    }
+
+    /* 文章详情 */
+    function fnArticleDetails(article_id){
+      api.openWin({
+          name: 'ArticleWin',
+          url: './win_newsDetail.html',
+          scrollToTop:true,
+          progress:{
+             type:"default",
+             title:"加载中",
+             text:"小麦正在卖力加载",
+          },
+          pageParam: {
+              name: 'test',
+              article_id:article_id
+          }
+      });
+    }
+    /* 站长专栏 */
+    function fnGoColumn(uid){
+      api.openWin({
+          name: 'column',
+          url: './win_column.html',
+          pageParam: {
+              user_id:uid
+          }
+      });
+    }
+
+    /* 关注站长 */
+    function fnFollow(at_uid,this_){
+      var uid = $api.getStorage('userId');
+      var at_uid = at_uid;
+      if(!uid){
+        api.toast({msg: "请先登录！", location: "middle"});
+      }else{
+        api.ajax({
+            url: 'http://www.maiyanx.com/wecenter_api/follow_people/',
+            method: 'post',
+            dataType: 'json',
+            data: {
+                values: {
+                    uid: uid,
+                    at_uid: at_uid
+                }
+            }
+        },function(ret, err){
+            if (ret.errno == 1) {
+              if(this_.html() == "关注"){
+                this_.html("已关注");
+                this_.addClass("active");
+              }else{
+                this_.html("关注");
+                this_.removeClass("active");
+              }
+            } else {
+                alert( JSON.stringify( err ) );
+            }
+        });
+      }
+
+    }
+</script>
+</body>
+</html>
