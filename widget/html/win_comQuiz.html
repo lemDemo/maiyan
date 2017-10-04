@@ -181,22 +181,7 @@
 
 
     apiready = function () {
-        // $api.fixStatusBar($api.dom( ".header" ));
-        // var $headerH = $("header").height();
-        // var url = './frm_Atrdetail.html';
-        // var footerH = $("footer").height();
-        // api.openFrame({
-        //     name: 'detail-article',
-        //     url: url,
-        //     rect: {
-        //         x: 0,
-        //         y: $headerH,
-        //         w: 'auto',
-        //         h: 'auto',
-        //         marginBottom: footerH
-        //     },
-        //     showProgress: 'true'
-        // });
+
           var uid = $api.getStorage('userId');
         var signature = api.require('signature');
         signature.md5({

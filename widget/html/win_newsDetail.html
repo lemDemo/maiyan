@@ -133,11 +133,9 @@
     apiready = function () {
         var pageParam = api.pageParam;
         var article_id =  pageParam.article_id;
-
-
         $api.fixStatusBar($api.dom( ".header" ));
         var headerH = $("header").height();
-        var url = './frm_Atrdetail.html';
+        var url = './frm_AtrDetail.html';
         var footerH = $("footer").height();
         api.openFrame({
             name: 'detail-article',
