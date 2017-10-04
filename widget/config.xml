@@ -27,8 +27,3 @@
     <permission name="hardware"/>
     <access origin="*"/>
 </widget>
-<feature name="weiXin">
-      <param name="urlScheme" value="wx297135d8b3feb558"/>
-       <param name="apiKey" value="wx297135d8b3feb558"/>
-       <param name="apiSecret" value="a57b3575cc49760e3b2bea5c334720f1"/>
- </feature>
